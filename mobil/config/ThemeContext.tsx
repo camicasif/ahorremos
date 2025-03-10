@@ -1,11 +1,11 @@
 import React, { createContext, useState, useContext } from 'react';
-import { SantanderTheme, BNBTheme } from './themes';
+import { DarkColor, LightColor } from './themes';
 import { PaperProvider } from 'react-native-paper';
 
 const ThemeContext = createContext({
     toggleTheme: () => {},
     isDarkTheme: false,
-    theme: SantanderTheme, // Default theme
+    theme: DarkColor, // Default theme
 });
 
 export const ThemeProvider = ({ children }) => {
@@ -15,7 +15,7 @@ export const ThemeProvider = ({ children }) => {
         setIsDarkTheme(!isDarkTheme);
     };
 
-    const theme = isDarkTheme ? SantanderTheme : BNBTheme;
+    const theme = isDarkTheme ? DarkColor : LightColor;
 
     return (
         <ThemeContext.Provider value={{ toggleTheme, isDarkTheme, theme }}>

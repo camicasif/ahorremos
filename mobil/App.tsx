@@ -8,7 +8,7 @@ import LoginScreen from './authentication/LoginScreen';
 import SignupScreen from './authentication/SignupScreen';
 import { useAppTheme, ThemeProvider } from './config/ThemeContext';
 import HomeScreen from "./home/HomeScreen";
-import {BNBTheme, SantanderTheme} from "./config/themes";
+import {LightColor, DarkColor} from "./config/themes";
 import axiosInstance from "./config/axiosConfig";
 import PeluqueriaScreen from "./home/PeluqueriaScreen";
 import CitaScreen from "./home/CitaScreen";
@@ -23,7 +23,7 @@ const Stack = createNativeStackNavigator();
 const App = () => {
     const [isDarkTheme, setIsDarkTheme] = React.useState(false);
 
-    const theme = isDarkTheme ? SantanderTheme : BNBTheme;
+    const theme = isDarkTheme ? DarkColor : LightColor;
 
     return (
         <ThemeProvider>
@@ -37,8 +37,8 @@ const App = () => {
                             headerTitle: '', // No mostrar el título
                             headerBackVisible: false, // No mostrar el botón de volver atrás
                             headerStyle: {
-                                backgroundColor: '#0057FF', // Cambiar el color de fondo del header
-                                borderColor: '#0057FF', //
+                                backgroundColor: theme.colors.background, // Cambiar el color de fondo del header
+                                borderColor: theme.colors.background, //
                                 height: 50, // Ajustar la altura del header para hacerlo más delgado
                                 elevation: 0, // Eliminar la sombra en Android}} // Ocultar el header en la pantalla de inicio de sesión
                             },
