@@ -1,13 +1,7 @@
 import { DefaultTheme, MD3Theme } from 'react-native-paper';
 import {MD3ElevationColors, MD3Typescale} from "react-native-paper/lib/typescript/types";
 import {Mode} from "node:fs";
-
-interface CustomTheme extends MD3Theme {
-    headerImage: any;
-    api:string;
-}
-
-export const SantanderTheme: {
+export const DarkColor: {
     mode?: Mode;
     fonts: MD3Typescale;
     headerImage: any;
@@ -63,17 +57,17 @@ export const SantanderTheme: {
         primary: '#D33C3C',    // BOTON
         secondary: '#04BF79',  // Negro azulado muy oscuro
         accent: '#D33C3C',     // rojo/botones
-        background: '#0057FF', // fondo azul
+        background: '#FFFFFF', // fondo blanco
         surface: '#FFFFFF',    // Blanco
-        text: '#FFFFFF',       // dark violet texto
+        text: '#000000',       // dark violet texto
         disabled: '#9E9E9E',   // Gris medio para estados deshabilitados
         placeholder: '#FFFFFF', // Gris medio para placeholders
     },
-    headerImage: require('../assets/img.png'),
+    headerImage: require('../assets/adaptive-icon.png'),
     api:'http://172.16.74.16:8081'
 };
 
-export const BNBTheme: {
+export const LightColor: {
     mode?: Mode;
     fonts: MD3Typescale;
     headerImage: any;
@@ -129,13 +123,13 @@ export const BNBTheme: {
         primary: '#D33C3C',    // BOTON
         secondary: '#04BF79',  // Negro azulado muy oscuro
         accent: '#D33C3C',     // rojo/botones
-        background: '#0057FF', // fondo azul
+        background: '#FFFFFF', // fondo azul
         surface: '#FFFFFF',    // Blanco
-        text: '#FFFFFF',       // dark violet texto
-        disabled: '#9E9E9E',   // Gris medio para estados deshabilitados
-        placeholder: '#9E9E9E', // Gris medio para placeholders
+        text: '#000',       // dark violet texto
+        disabled: '#dad7d7',   // Gris medio para estados deshabilitados
+        placeholder: '#f6f5f5', // Gris medio para placeholders
     },
-    headerImage: require('../assets/img.png'), // Actualiza con la ruta de tu imagen
+    headerImage: require('../assets/adaptive-icon.png'), // Actualiza con la ruta de tu imagen
     api:'http://172.16.74.16:8081'
 
 };
