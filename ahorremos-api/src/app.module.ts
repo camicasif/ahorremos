@@ -16,6 +16,11 @@ import { AuthController } from './auth/authController';
 
 
 import Rank from './entities/rank';
+import { SharedAccount } from './entities/sharedAccount';
+import { SharedAccountMembers } from './entities/sharedAccountMembers';
+import { Payment } from './entities/payment';
+import { PaymentPlan } from './entities/paymentPlan';
+import { Account } from './entities/account';
 
 @Module({
   imports: [
@@ -37,7 +42,7 @@ import Rank from './entities/rank';
       autoLoadEntities: true,
       synchronize: true, // Esto sincronizará las entidades con la base de datos automáticamente (solo para desarrollo)
       logging: true, // Esto habilitará el registro de consultas SQL en la consola  
-      entities:[  User, Rank]  
+      entities:[  User, Rank, SharedAccount, SharedAccountMembers, Payment, PaymentPlan, Account]  
     }),
 
     // TypeOrmModule.forRoot({
@@ -54,7 +59,7 @@ import Rank from './entities/rank';
     // }),
 
 
-    TypeOrmModule.forFeature([ User,  Rank]),
+    TypeOrmModule.forFeature([ User,  Rank,  SharedAccount, SharedAccountMembers, Payment, PaymentPlan, Account]),
 
   ],
   controllers: [AppController, UserController, AuthController],
