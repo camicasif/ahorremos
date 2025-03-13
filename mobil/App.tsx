@@ -16,6 +16,9 @@ import MapsScreen from "./home/MapsScreen";
 import Menu from './home/NavigationScreen';
 import MenuPeluquero from "./home/NavigationPeluqueroScreen";
 import CitaDetailScreen from "./home/CitaDetailScreen"; // Import the Menu component that contains the bottom tab navigator
+import LandingScreen from './authentication/LandingScreen';
+
+
 
 
 const Stack = createNativeStackNavigator();
@@ -29,19 +32,24 @@ const App = () => {
         <ThemeProvider>
             <NavigationContainer theme={theme}>
                 <Stack.Navigator>
+                <Stack.Screen
+                        name="Landing"
+                        component={LandingScreen}
+                        options={{
+                            headerShown: false,
+                            headerTitle: '', // No mostrar el título
+                            headerBackVisible: false, // No mostrar el botón de volver atrás
+               
+                        }}
+                    />
                     <Stack.Screen
                         name="Login"
                         component={LoginScreen}
                         options={{
-                            headerShown: true,
+                            headerShown: false,
                             headerTitle: '', // No mostrar el título
                             headerBackVisible: false, // No mostrar el botón de volver atrás
-                            headerStyle: {
-                                backgroundColor: theme.colors.background, // Cambiar el color de fondo del header
-                                borderColor: theme.colors.background, //
-                                height: 50, // Ajustar la altura del header para hacerlo más delgado
-                                elevation: 0, // Eliminar la sombra en Android}} // Ocultar el header en la pantalla de inicio de sesión
-                            },
+               
                         }}
                     />
                     {/*<Stack.Screen*/}
