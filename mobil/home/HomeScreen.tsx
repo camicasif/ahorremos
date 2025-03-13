@@ -10,11 +10,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getAccountPlanDetail } from '../services/Generalservice';
 import { useAppTheme } from '../config/ThemeContext';
 import { AccountPlanDetailResponse } from '../models/SharedAccount';
+import { useNavigation } from '@react-navigation/native';
 
 export default function HomeScreen() {
     const { theme } = useAppTheme();
     const styles = getStyles(theme);
-
+    const navigation = useNavigation();
     const [accountData, setAccountData] = useState<AccountPlanDetailResponse | null>(null);
     const [loading, setLoading] = useState(true);
 
@@ -75,7 +76,7 @@ export default function HomeScreen() {
               <TouchableOpacity style={styles.button}>
                   <Text>Pagar</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.button}>
+              <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Vincular')}>
                   <Text>Vincular</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.button}>
