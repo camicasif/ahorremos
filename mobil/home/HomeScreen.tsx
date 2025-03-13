@@ -19,227 +19,103 @@ import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../navigation/types';
 import {Page, PeluqueriaResponseDto} from "../models/Peluqueria.interface";
 import {filtrarPeluquerias, PeluqueriaFilterParams} from "../services/Generalservice";
+import { useAppTheme } from '../config/ThemeContext';
 type HomeScreenNavigationProp = NativeStackNavigationProp<
     RootStackParamList,
     'Home'
 >;
 
 export default function HomeScreen() {
-    const navigation = useNavigation<HomeScreenNavigationProp>();
-    const [data, setData] = useState<PeluqueriaResponseDto[]>([]);
-    const [page, setPage] = useState(0);
-    const [loading, setLoading] = useState(false);
-    const [endReached, setEndReached] = useState(false);
-    const [nombre, setNombre] = useState('');  // Nuevo estado para el filtro de nombre
-    const [onSite, setOnSite] = useState(false);  // Estado para el filtro onSite
-    const [domicilio, setDomicilio] = useState(false);  // Estado para el filtro domicilio
-    const loadMoreRef = useRef(false);
+    const { theme } = useAppTheme();
+    const styles = getStyles(theme);
 
-    useEffect(() => {
-        fetchData();
-    }, [page]);
+    /*tener dos variables que se obtienen al principio de la api*/
+    /*si no tiene una cuenta compartida mostrar otro mensaje en vez de */
 
-    const fetchData = async () => {
-        if (loading || endReached) return;
-
-        setLoading(true);
-        try {
-            const params: PeluqueriaFilterParams = {
-                page: page,
-                size: 5,
-                nombre: nombre,
-                ...onSite && { onSite }, // Solo agregar si onSite es true
-                ...domicilio && { domicilio } // Solo agregar si domicilio es true
-            };
-
-            const response: Page<PeluqueriaResponseDto> = await filtrarPeluquerias(params);
-            if (response.last) {
-                setEndReached(true);
-            }
-            if (page === 0) {
-                setData(response.content);
-            } else {
-                setData(prevData => [...prevData, ...response.content]);
-            }
-        } catch (error) {
-            console.error('Error al cargar los datos:', error);
-        } finally {
-            setLoading(false);
-        }
-    };
-    const handleSearch = () => {
-        setEndReached(false);
-        setPage(0);  // Reiniciar la paginación
-        fetchData(); // Llamar a la API con la nueva búsqueda
-    };
-
-    const renderItem = ({ item }: { item: PeluqueriaResponseDto }) => (
-        <Card style={styles.card}>
-            <View style={styles.cardContentContainer}>
-                <Image
-                    source={{ uri: `data:image/jpg;base64,${item.imagen}` }}
-                    style={styles.cardImage}
-                />
-                <View style={styles.cardTextContainer}>
-                    <Text style={styles.cardTitle}>{item.nombre}</Text>
-                    <Text style={styles.cardDescription}>{item.descripcion}</Text>
-                    <Text style={styles.cardScore}>Puntuación: {item.puntuacion}</Text>
-                    <Button
-                        style={styles.loadMoreButton}
-                        labelStyle={styles.loadMoreButtonLabel}
-                        onPress={() => { navigateToPeluqueria(item)}}>
-                        Ver más
-                    </Button>
-                </View>
-            </View>
-        </Card>
-    );
-
-
-    const loadMore = () => {
-        if (!loading && !endReached && !loadMoreRef.current) {
-            loadMoreRef.current = true;
-            setPage(prevPage => prevPage + 1);
-            setTimeout(() => {
-                loadMoreRef.current = false;
-            }, 1000); // 1 second debounce
-        }
-    };
-
-    const navigateToPeluqueria = (peluqueria: PeluqueriaResponseDto) => {
-        navigation.navigate('Peluqueria', { peluqueria }); // Pasar los datos de la peluquería
-       // navigation.navigate('Cita');
-    };
-
+    /*Tener una variable estado de Critico, feliz dependiendo de esos dos estados,
+         que esa sea la imagen del cachorro*/
     return (
-        <View style={styles.container}>
-            <Searchbar
-                placeholder="Buscar por nombre"
-                value={nombre}
-                onChangeText={text => setNombre(text)}  // Actualizar el estado de nombre
-                onSubmitEditing={handleSearch}  // Llamar a la API cuando el usuario presiona Enter en el teclado
-                style={styles.searchbar}
-            />
-            <View style={styles.chipContainer}>
-                <Chip
-                    selected={onSite}
-                    onPress={() => {
-                        setOnSite(!onSite);  // Alternar el estado de onSite
-                        handleSearch();  // Hacer la solicitud a la API
-                    }}
-                    style={styles.chip}
-                >
-                    OnSite
-                </Chip>
-                <Chip
-                    selected={domicilio}
-                    onPress={() => {
-                        setDomicilio(!domicilio);  // Alternar el estado de domicilio
-                        handleSearch();  // Hacer la solicitud a la API
-                    }}
-                    style={styles.chip}
-                >
-                    Domicilio
-                </Chip>
-            </View>
-            <FlatList
-                data={data}
-                renderItem={renderItem}
-                keyExtractor={(item) => item.id.toString()}
-                onEndReached={loadMore}
-                onEndReachedThreshold={0.5}
-                ListFooterComponent={loading ? <ActivityIndicator size="large" /> : null}
-            />
-        </View>
+      <View style={styles.container}>
+          <Text style={styles.savingsTitle}>Saldo en cuenta $</Text>
+          <Text style={styles.amount}>Bs 250.00</Text>
+
+          <Text style={styles.savingsTitle}>Ahorro Compartido $</Text>
+          <Text style={styles.amount}>Bs 250.00</Text>
+
+          <Text style={styles.savingsTitle}>Proxima fecha de abono  fecha ${}</Text>
+
+
+          <Chip style={styles.chip}>Crítico</Chip>
+          <Text style={styles.statusText}>No has abonado</Text>
+
+          {/*<Image*/}
+          {/*  source={require('../assets/sad_dog.png')}*/}
+          {/*  style={styles.image}*/}
+          {/*  resizeMode="contain"*/}
+          {/*/>*/}
+
+          <View style={styles.buttonContainer}>
+              <TouchableOpacity style={styles.button}>
+                  {/*<Image source={require('../assets/icon_payment.png')} style={styles.icon} />*/}
+                  <Text>Pagar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.button}>
+                  {/*<Image source={require('../assets/icon_link.png')} style={styles.icon} />*/}
+                  <Text>Vincular</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.button}>
+                  {/*<Image source={require('../assets/icon_plan.png')} style={styles.icon} />*/}
+                  <Text>Plan de pagos</Text>
+              </TouchableOpacity>
+          </View>
+      </View>
     );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (theme) => StyleSheet.create({
     container: {
         flex: 1,
-        padding: 10,
-        backgroundColor: '#0057FF',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: theme.colors.background,
+        padding: 20,
     },
-    searchbar: {
-        marginBottom: 10,
-        backgroundColor: '#fff'
+    savingsTitle: {
+        fontSize: 16,
+        color: theme.colors.text,
     },
-    chipContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: 10,
+    amount: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginVertical: 5,
     },
     chip: {
-        marginRight: 5,
-        backgroundColor: '#fff', // Fondo semitransparente con tono azul
-        borderColor: 'rgba(255, 255, 255, 0.3)', // Borde blanco con opacidad baja
-        shadowOpacity: 0.1,
-        shadowColor: '#000', // Sombra
+        backgroundColor: 'red',
+        color: 'white',
+        paddingHorizontal: 10,
+        marginVertical: 10,
     },
-    card: {
-        marginBottom: 10,
-        backgroundColor: '#fff', // Fondo translúcido azul
-        borderRadius: 15, // Bordes redondeados
-        borderColor: 'rgba(255, 255, 255, 0.3)', // Borde blanco con opacidad baja
-        borderWidth: 1, // Ancho del borde
-        padding: 15, // Espaciado interno
-        shadowColor: '#000', // Sombra
-        shadowOffset: { width: 0, height: 10 },
-        shadowOpacity: 0.2,
-        shadowRadius: 22,
-        elevation: 10, // Elevación para Android
-        position: 'relative', // Asegurarse de que el botón esté posicionado relativo a la tarjeta
-        backdropFilter: 'blur(10px)', // Efecto de desenfoque
-    },
-    cardContentContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    cardImage: {
-        width: 80,
-        height: 80,
-        borderRadius: 40,
-        marginRight: 15,
-    },
-    cardTextContainer: {
-        flex: 1,
-    },
-    cardTitle: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: '#000', // Texto blanco para contraste
-        textAlign: 'left',
-    },
-    cardDescription: {
+    statusText: {
         fontSize: 14,
-        color: '#000', // Texto con tono claro para contraste
-        marginTop: 10,
-        marginBottom: 5,
+        color: theme.colors.text,
+        marginBottom: 20,
     },
-    cardScore: {
-        fontSize: 12,
-        color: '#000', // Texto con tono claro para contraste
-        marginTop: 5,
-        marginBottom: 10,
-        fontWeight: 'bold',
+    image: {
+        width: 150,
+        height: 150,
     },
-    loadMoreButton: {
-        backgroundColor: '#D33C3C',
-        borderRadius: 20,
-        paddingVertical: 1,
-        paddingHorizontal: 1,
-        elevation: 3,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
-        bottom: -2,
-        right: -2,
+    buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
+        marginTop: 20,
     },
-    loadMoreButtonLabel: {
-        color: '#fff', // Color del texto
-        fontSize: 14, // Tamaño del texto reducido
-        fontWeight: 'bold', // Negrita
+    button: {
+        alignItems: 'center',
+        padding: 10,
     },
+    icon: {
+        width: 40,
+        height: 40,
+    }
 });
-

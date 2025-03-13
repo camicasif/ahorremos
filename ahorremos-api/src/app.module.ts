@@ -37,7 +37,8 @@ import { AccountService } from './accounts/account.service';
       host: "127.0.0.1",
       port: 5432,
       username: "postgres",
-      password: "090702",
+      // password: "090702",
+      password:"admin",
       database: "ahorremos",
       autoLoadEntities: true,
       synchronize: true, // Esto sincronizará las entidades con la base de datos automáticamente (solo para desarrollo)

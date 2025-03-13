@@ -11,28 +11,13 @@ export default function Menu() {
         <Tab.Navigator
             screenOptions={({ route }) => ({
                 tabBarIcon: ({ color, size }) => {
-                    let iconName;
 
-                    if (route.name === 'Home') {
-                        iconName = 'store'; // Icono para la pestaña Home
-                    } else if (route.name === 'CitasEstado') {
-                        iconName = 'calendar'; // Icono para la pestaña CitasEstado
-                    }
-
-                    return <Icon name={iconName} size={size} color={color} />;
+                    return <Icon name={'store'} size={size} color={color} />;
                 },
                 tabBarLabel: ({ focused, color }) => {
-                    let labelText;
-
-                    if (route.name === 'Home') {
-                        labelText = 'Inicio'; // Etiqueta para la pestaña Home
-                    } else if (route.name === 'CitasEstado') {
-                        labelText = 'Citas'; // Etiqueta para la pestaña CitasEstado
-                    }
-
                     return (
                         <Text style={{ color: focused ? 'tomato' : 'black', fontSize: 12 }}>
-                            {labelText}
+                            {'Inicio'}
                         </Text>
                     );
                 },
@@ -83,7 +68,7 @@ export default function Menu() {
                     headerShown: true, // Mostrar el encabezado
                     headerTitle: '', // Sin título en el encabezado
                     headerBackVisible: false, // Sin botón de retroceso en el encabezado
-                    tabBarLabel: 'Citas', // Etiqueta para la pestaña CitasEstado
+                    tabBarLabel: 'Movimientos', // Etiqueta para la pestaña CitasEstado
                 }}
             />
         </Tab.Navigator>
