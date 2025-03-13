@@ -21,6 +21,7 @@ import { SharedAccountMembers } from './entities/sharedAccountMembers';
 import { Payment } from './entities/payment';
 import { PaymentPlan } from './entities/paymentPlan';
 import { Account } from './entities/account';
+import { AccountService } from './accounts/account.service';
 
 @Module({
   imports: [
@@ -63,7 +64,7 @@ import { Account } from './entities/account';
 
   ],
   controllers: [AppController, UserController, AuthController],
-  providers: [AppService, UserService, JwtStrategy, AuthService],
+  providers: [AppService, UserService, JwtStrategy, AuthService, AccountService],
 })
 export class AppModule {
 
