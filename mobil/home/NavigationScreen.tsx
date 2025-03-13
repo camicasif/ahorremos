@@ -1,8 +1,9 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './HomeScreen'; // Importa tu componente HomeScreen
-import CitasEstadoScreen from "./CitasEstadoScreen"; // Importa tu componente CitasEstadoScreen
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import MovimientosScreen from './MovimientosScreen';
+import HomeStackScreen from './HomeStackScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -50,27 +51,26 @@ export default function Menu() {
                 },
             })}
         >
-            {/* Define las pestañas */}
-            <Tab.Screen
-                name="Home"
-                component={HomeScreen}
-                options={{
-                    headerShown: true, // Mostrar el encabezado
-                    headerTitle: '', // Sin título en el encabezado
-                    headerBackVisible: false, // Sin botón de retroceso en el encabezado
-                    tabBarLabel: 'Inicio', // Etiqueta para la pestaña Home
-                }}
-            />
-            <Tab.Screen
-                name="CitasEstado"
-                component={CitasEstadoScreen}
-                options={{
-                    headerShown: true, // Mostrar el encabezado
-                    headerTitle: '', // Sin título en el encabezado
-                    headerBackVisible: false, // Sin botón de retroceso en el encabezado
-                    tabBarLabel: 'Movimientos', // Etiqueta para la pestaña CitasEstado
-                }}
-            />
+          <Tab.Screen
+            name="HomeStack"
+            component={HomeStackScreen} // Usamos el stack que contiene HomeScreen y VincularScreen
+            options={{
+              headerShown: true,
+              headerTitle: '',
+              headerBackVisible: false,
+              tabBarLabel: 'Inicio',
+            }}
+          />
+          <Tab.Screen
+            name="Movimientos"
+            component={MovimientosScreen}
+            options={{
+              headerShown: true,
+              headerTitle: '',
+              headerBackVisible: false,
+              tabBarLabel: 'Movimientos',
+            }}
+          />
         </Tab.Navigator>
     );
 }

@@ -47,12 +47,16 @@ export default function LoginScreen() {
                               behavior={'height'}
                               keyboardVerticalOffset={150}>
 
-            <View style={styles.container}>
-                <View style={styles.headerImageContainer}>
-                    <Image source={theme.headerImage} style={styles.headerImage}/>
+            <View style={styles.container} >
+                <View style={styles.headerImageContainer} >
+                    <Image   source={require('../assets/logosweetsavings.png')} style={styles.headerImage}/>
                 </View>
                 <View style={styles.containerInputs}>
+                    <View>
                     <Text variant="headlineMedium" style={styles.title}>Iniciar Sesión</Text>
+                    <Text variant="headlineMedium" style={{fontSize:16,color:"#7A7A7A",marginBottom:20}} >Ingresa los datos solicitados</Text>
+                    </View>
+                  
                     <TextInput
                         style={styles.input}
                         label="Email"
@@ -63,7 +67,7 @@ export default function LoginScreen() {
                         mode="outlined"
                         textColor={theme.colors.text}
                         underlineColor={theme.colors.text}
-                        outlineColor={theme.colors.placeholder}
+                        outlineColor="#FBFBFB"
                         activeOutlineColor={theme.colors.placeholder}
                         theme={{roundness: 10}}
                         placeholderTextColor={theme.colors.text}
@@ -75,8 +79,9 @@ export default function LoginScreen() {
                         onChangeText={setPassword}
                         secureTextEntry={!showPassword}
                         mode="outlined"
-                        outlineColor={theme.colors.placeholder}
+                        outlineColor="#FBFBFB"
                         activeOutlineColor={theme.colors.placeholder}
+                        
                         theme={{roundness: 10}}
                         placeholderTextColor={theme.colors.text}
                         right={
@@ -97,13 +102,15 @@ export default function LoginScreen() {
                         onPress={handleLogin}
                         style={[
                             styles.button,
-                            { backgroundColor: theme.colors.background, borderWidth: 2, borderColor: theme.colors.secondary }
+                            { backgroundColor: theme.colors.background, borderWidth: 1.5,marginTop:"15%", borderColor: theme.colors.secondary ,borderRadius:100 }
                         ]}
                         contentStyle={styles.buttonContent}
                         labelStyle={styles.buttonLabel}
                     >
                         Ingresar
                     </Button>
+
+                    <Text style={{color:"#189A82",fontSize:16,marginTop:20}}>No tengo una cuenta. <Text style={{fontWeight:700,color:"#189A82"}}>Registrarme</Text> </Text>
                     {/*<View style={styles.signupContainer}>*/}
                     {/*    <Text style={styles.signupText}>¿No tienes una cuenta?</Text>*/}
                     {/*    <TouchableOpacity onPress={() => navigation.navigate('Signup')}>*/}
@@ -151,7 +158,7 @@ const getStyles = (theme: any ) =>  StyleSheet.create({
     container: {
         flex: 1,
         height: '100%',
-        backgroundColor: theme.colors.background,
+     
     },
     modalContainer: {
         marginTop:30,
@@ -181,20 +188,19 @@ const getStyles = (theme: any ) =>  StyleSheet.create({
     headerImageContainer: {
         width: '100%',
         height: '29%',
-        shadowColor: theme.colors.text,
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
-        elevation: 8,
+        marginTop:"15%",
+        justifyContent:"center",
+        alignItems:"center"
+   
     },
     headerImage: {
-        width: '100%',
-        height: '100%',
-        resizeMode: 'cover',
+        width: '50%',
+        height: '50%',
+        resizeMode: 'contain',
     },
     title: {
         marginTop: 30,
-        marginBottom: 15,
+  
         color: theme.colors.text,
         textAlign: 'left',
         fontWeight: 'bold',
@@ -207,11 +213,11 @@ const getStyles = (theme: any ) =>  StyleSheet.create({
         marginVertical: 10,
         height: 60,
         color: theme.colors.placeholder,
-        backgroundColor: theme.colors.placeholder
+        backgroundColor: "#FBFBFB"
     },
     button: {
         width: '100%', // El ancho del botón
-        height: 60, // La altura del botón
+        height: 65, // La altura del botón
         marginTop: 30, // Margen superior
         // Bordes redondeados
     },
