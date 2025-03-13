@@ -11,7 +11,7 @@ import { getAccountPlanDetail } from '../services/Generalservice';
 import { useAppTheme } from '../config/ThemeContext';
 import { AccountPlanDetailResponse } from '../models/SharedAccount';
 
-export default function HomeScreen() {
+export default function MovimientosScreen() {
     const { theme } = useAppTheme();
     const styles = getStyles(theme);
 

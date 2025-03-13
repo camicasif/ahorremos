@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './HomeScreen'; // Importa tu componente HomeScreen
 import CitasEstadoScreen from "./CitasEstadoScreen"; // Importa tu componente CitasEstadoScreen
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import MovimientosScreen from './MovimientosScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -62,8 +63,8 @@ export default function Menu() {
                 }}
             />
             <Tab.Screen
-                name="CitasEstado"
-                component={CitasEstadoScreen}
+                name="Movimientos"
+                component={MovimientosScreen}
                 options={{
                     headerShown: true, // Mostrar el encabezado
                     headerTitle: '', // Sin título en el encabezado

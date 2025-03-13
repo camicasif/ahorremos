@@ -58,22 +58,22 @@ export default function MenuPeluquero() {
             })}
         >
             {/* Define the tabs */}
-            <Tab.Screen
-                name="HomePeluquero"
-                component={HomePeluqueroScreen}
-                initialParams={ route}
-                options={{
-                    headerShown: true, // Mostrar el header
-                    headerTitle: '', // No mostrar el título
-                    headerBackVisible: false, // No mostrar el botón de volver atrás
-                    headerStyle: {
-                        backgroundColor: '#FFFFFF', // Cambiar el color de fondo del header
-                        borderColor: '#FFFFFF', //
-                        height: 50, // Ajustar la altura del header para hacerlo más delgado
-                        elevation: 0, // Eliminar la sombra en Android
-                    },
-                }}
-            />
+            {/*<Tab.Screen*/}
+            {/*    name="HomePeluquero"*/}
+            {/*    component={HomePeluqueroScreen}*/}
+            {/*    initialParams={ route}*/}
+            {/*    options={{*/}
+            {/*        headerShown: true, // Mostrar el header*/}
+            {/*        headerTitle: '', // No mostrar el título*/}
+            {/*        headerBackVisible: false, // No mostrar el botón de volver atrás*/}
+            {/*        headerStyle: {*/}
+            {/*            backgroundColor: '#FFFFFF', // Cambiar el color de fondo del header*/}
+            {/*            borderColor: '#FFFFFF', //*/}
+            {/*            height: 50, // Ajustar la altura del header para hacerlo más delgado*/}
+            {/*            elevation: 0, // Eliminar la sombra en Android*/}
+            {/*        },*/}
+            {/*    }}*/}
+            {/*/>*/}
 
         </Tab.Navigator>
     );
