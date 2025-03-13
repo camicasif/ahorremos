@@ -10,9 +10,6 @@ import { useAppTheme, ThemeProvider } from './config/ThemeContext';
 import HomeScreen from "./home/HomeScreen";
 import {LightColor, DarkColor} from "./config/themes";
 import axiosInstance from "./config/axiosConfig";
-import PeluqueriaScreen from "./home/PeluqueriaScreen";
-import CitaScreen from "./home/CitaScreen";
-import MapsScreen from "./home/MapsScreen";
 import Menu from './home/NavigationScreen';
 import MenuPeluquero from "./home/NavigationPeluqueroScreen";
 import CitaDetailScreen from "./home/CitaDetailScreen"; // Import the Menu component that contains the bottom tab navigator
@@ -65,13 +62,13 @@ const App = () => {
                     {/*        },*/}
                     {/*    }}*/}
                     {/*/>*/}
-                    {/*<Stack.Screen*/}
-                    {/*    name="Menu"*/}
-                    {/*    component={Menu} // Use the Menu component that contains the bottom tab navigator*/}
-                    {/*    options={{*/}
-                    {/*        headerShown: false, // Hide the header since Menu has its own navigation*/}
-                    {/*    }}*/}
-                    {/*/>*/}
+                    <Stack.Screen
+                        name="Menu"
+                        component={Menu} // Use the Menu component that contains the bottom tab navigator
+                        options={{
+                            headerShown: false, // Hide the header since Menu has its own navigation
+                        }}
+                    />
                     {/*<Stack.Screen*/}
                     {/*    name="MenuPeluquero"*/}
                     {/*    component={MenuPeluquero} // Use the Menu component that contains the bottom tab navigator*/}

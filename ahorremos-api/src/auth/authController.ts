@@ -2,11 +2,13 @@ import { Controller, Post, Body } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import User from 'src/entities/user';
+import { AccountService } from 'src/accounts/account.service';
+import { Account } from 'src/entities/account';
 
 @ApiTags('auth') // Agrupa los endpoints relacionados con autenticación en Swagger UI
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService, private readonly accountService: AccountService) {}
 
   @Post('register')
   @ApiOperation({
@@ -34,7 +36,14 @@ export class AuthController {
   })
   @ApiResponse({ status: 400, description: 'Datos inválidos.' })
   async register(@Body() user: Partial<User>) {
-    return this.authService.register(user);
+    var userCreated =  this.authService.register(user);
+    var account = new Account;
+    account.balance=0;
+    account.user=(await userCreated)
+     this.accountService.saveAccount(account);
+     return userCreated;
+
+
   }
 
   @Post('login')

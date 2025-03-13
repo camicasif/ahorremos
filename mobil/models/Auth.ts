@@ -4,7 +4,9 @@ export interface Auth {
 
 }
 export interface AuthResponse {
-    username : string,
+    name : string,
+    lastName : string,
+
     userId: string;
     token:string
     rol: UserRol;

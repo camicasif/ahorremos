@@ -25,14 +25,16 @@ export default function LoginScreen() {
 
     const styles = getStyles(theme);
     const handleLogin = async () => {
-        const authUser = await login({ username: email, password });
-            console.log("auhuser info: ", authUser)
+        // const authUser = await login({ username: email, password });
+        //     console.log("auhuser info: ", authUser)
+        //
+        // if (authUser.rol == UserRol.PELUQUERO){
+        //         navigation.navigate('MenuPeluquero',{ idPeluqueria: authUser.idPeluqueria });
+        //     }else {
+        //         navigation.navigate('Menu');
+        //     }
 
-        if (authUser.rol == UserRol.PELUQUERO){
-                navigation.navigate('MenuPeluquero',{ idPeluqueria: authUser.idPeluqueria });
-            }else {
-                navigation.navigate('Menu');
-            }
+        navigation.navigate('Menu');
 
     };
 

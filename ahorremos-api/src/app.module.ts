@@ -21,6 +21,7 @@ import { SharedAccountMembers } from './entities/sharedAccountMembers';
 import { Payment } from './entities/payment';
 import { PaymentPlan } from './entities/paymentPlan';
 import { Account } from './entities/account';
+import { AccountService } from './accounts/account.service';
 
 @Module({
   imports: [
@@ -36,7 +37,8 @@ import { Account } from './entities/account';
       host: "127.0.0.1",
       port: 5432,
       username: "postgres",
-      password: "090702",
+      // password: "090702",
+      password:"admin",
       database: "ahorremos",
       autoLoadEntities: true,
       synchronize: true, // Esto sincronizará las entidades con la base de datos automáticamente (solo para desarrollo)
@@ -62,7 +64,7 @@ import { Account } from './entities/account';
 
   ],
   controllers: [AppController, UserController, AuthController],
-  providers: [AppService, UserService, JwtStrategy, AuthService],
+  providers: [AppService, UserService, JwtStrategy, AuthService, AccountService],
 })
 export class AppModule {
 

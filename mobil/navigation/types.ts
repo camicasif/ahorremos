@@ -4,6 +4,8 @@ export type RootStackParamList = {
     Home: undefined;
     Peluqueria:undefined;
     CitasEstado:undefined;
+    Movimientos:undefined;
+
     Menu:undefined;
     MenuPeluquero:undefined;
     HomePeluquero:undefined;
