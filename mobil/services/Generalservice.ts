@@ -8,11 +8,17 @@ const API_URL = '/api/account';
 
 export const login = async (credentials: Auth): Promise<AuthResponse> => {
     try {
-        const response = await axiosInstance.post<AuthResponse>('/api/v1/auth/login', credentials);
+        const response = await axiosInstance.post<AuthResponse>('/auth/login', credentials);
         const data: AuthResponse = response.data as AuthResponse;
 
-        await AsyncStorage.setItem('authToken', data.token); // Almacenar el token
-        await AsyncStorage.setItem('userId', data.userId);
+        await AsyncStorage.multiSet([
+            ['accessToken', data.accessToken],
+            ['name', data.name],
+            ['lastName', data.lastName],
+            ['accountId', data.accountId]
+        ]);
+
+
         return data;
     } catch (error) {
         console.error('Login error:', error);

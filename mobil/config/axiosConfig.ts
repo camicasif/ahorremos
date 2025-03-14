@@ -4,7 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const axiosInstance = axios.create({
     // baseURL: 'http://192.168.1.144:8081', // Elige esta baseURL
-    baseURL: 'http://172.16.79.244:8081',
+    baseURL: 'http://172.20.10.3:3000',
 });
 
 // Interceptor para agregar el token a las solicitudes
@@ -47,7 +47,7 @@ export const setBaseURL = (newBaseURL) => {
 
 export const getToken = async () => {
     try {
-        const token = await AsyncStorage.getItem('authToken');
+        const token = await AsyncStorage.getItem('accessToken');
         if (token !== null) {
             return token;
         }

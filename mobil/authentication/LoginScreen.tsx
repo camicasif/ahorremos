@@ -1,5 +1,14 @@
 import React, {useState} from 'react';
-import {Alert, Image, KeyboardAvoidingView, Modal, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {
+    ActivityIndicator,
+    Alert,
+    Image,
+    KeyboardAvoidingView,
+    Modal,
+    StyleSheet,
+    TouchableOpacity,
+    View,
+} from 'react-native';
 import {Button, Portal, Text, TextInput, useTheme as usePaperTheme} from 'react-native-paper';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useNavigation} from '@react-navigation/native';
@@ -22,20 +31,29 @@ export default function LoginScreen() {
     const [password, setPassword] = useState('');
     const [ipModalVisible, setIpModalVisible] = useState(false); // Estado para mostrar el modal
     const [newIp, setNewIp] = useState(''); // Estado para la nueva IP
+    const [isLoading, setIsLoading] = useState(false); // Estado para controlar el loading
 
     const styles = getStyles(theme);
     const handleLogin = async () => {
-        // const authUser = await login({ username: email, password });
-        //     console.log("auhuser info: ", authUser)
-        //
-        // if (authUser.rol == UserRol.PELUQUERO){
-        //         navigation.navigate('MenuPeluquero',{ idPeluqueria: authUser.idPeluqueria });
-        //     }else {
-        //         navigation.navigate('Menu');
-        //     }
+        if (!email || !password) {
+            Alert.alert('Error', 'Por favor, ingresa tu correo y contraseña.');
+            return;
+        }
 
-        navigation.navigate('Menu');
+        setIsLoading(true); // Activar el estado de carga
 
+        try {
+            const authUser = await login({ email, password });
+            console.log('authUser info:', authUser);
+
+            // Navegar a la pantalla de menú después del login exitoso
+            navigation.navigate('Menu');
+        } catch (error) {
+            console.error('Login error:', error);
+            Alert.alert('Error', 'No se pudo iniciar sesión. Verifica tus credenciales.');
+        } finally {
+            setIsLoading(false); // Desactivar el estado de carga
+        }
     };
 
     const handleForgotPassword = () => {
@@ -46,7 +64,18 @@ export default function LoginScreen() {
         <KeyboardAvoidingView style={{flex: 1}}
                               behavior={'height'}
                               keyboardVerticalOffset={150}>
-
+            <Modal
+              transparent={true} // Fondo transparente
+              visible={isLoading} // Controlado por el estado isLoading
+              animationType="fade" // Animación de entrada/salida
+            >
+                <View style={styles.loadingModal}>
+                    <ActivityIndicator
+                      size="large" // Tamaño grande del spinner
+                      color={theme.colors.secondary} // Color del spinner
+                    />
+                </View>
+            </Modal>
             <View style={styles.container} >
                 <View style={styles.headerImageContainer} >
                     <Image   source={require('../assets/logosweetsavings.png')} style={styles.headerImage}/>
@@ -171,6 +200,12 @@ const getStyles = (theme: any ) =>  StyleSheet.create({
     },
     modalContent: {
         justifyContent: 'center',  // Centrar el modal en la pantalla
+    },
+    loadingModal: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Fondo semitransparente
     },
     modalInput: {
         width: '100%',
