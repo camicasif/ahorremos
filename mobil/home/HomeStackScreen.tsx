@@ -15,7 +15,7 @@ export default function HomeStackScreen() {
       <HomeStack.Screen
         name="Vincular"
         component={VincularScreen}
-        options={{ title: 'Vincular Cuenta' }}
+        options={{ headerShown: false, title: 'Vincular Cuenta' }}
       />
     </HomeStack.Navigator>
   );
