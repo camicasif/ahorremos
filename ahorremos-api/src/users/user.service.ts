@@ -87,4 +87,17 @@ export class UserService {
       throw error;
     }
   }
+
+
+  async getUserById(userId: number): Promise<User> {
+    try {
+      const user: User | null = await this.userRepository.findOneBy({user_id:userId});
+      if (!user) {
+        throw new Error('Usuario no encontrado');
+      }
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  }
 }

@@ -12,5 +12,8 @@ export class Account {
 
   @Column({ type: 'double precision' })
   balance: number;
+
+  @Column({type: 'int', nullable: true})
+  temporalCode: number | null;
 }
 

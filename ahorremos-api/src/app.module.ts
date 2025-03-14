@@ -22,6 +22,7 @@ import { Payment } from './entities/payment';
 import { PaymentPlan } from './entities/paymentPlan';
 import { Account } from './entities/account';
 import { AccountService } from './accounts/account.service';
+import { AccountController } from './accounts/accountController';
 
 @Module({
   imports: [
@@ -37,8 +38,8 @@ import { AccountService } from './accounts/account.service';
       host: "127.0.0.1",
       port: 5432,
       username: "postgres",
-      // password: "090702",
-      password:"admin",
+      password: "090702",
+      //password:"admin",
       database: "ahorremos",
       autoLoadEntities: true,
       synchronize: true, // Esto sincronizará las entidades con la base de datos automáticamente (solo para desarrollo)
@@ -63,7 +64,7 @@ import { AccountService } from './accounts/account.service';
     TypeOrmModule.forFeature([ User,  Rank,  SharedAccount, SharedAccountMembers, Payment, PaymentPlan, Account]),
 
   ],
-  controllers: [AppController, UserController, AuthController],
+  controllers: [AppController, UserController, AuthController, AccountController],
   providers: [AppService, UserService, JwtStrategy, AuthService, AccountService],
 })
 export class AppModule {
