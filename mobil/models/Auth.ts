@@ -1,5 +1,5 @@
 export interface Auth {
-    username : string,
+    email : string,
     password:string
 
 }
@@ -7,10 +7,9 @@ export interface AuthResponse {
     name : string,
     lastName : string,
 
-    userId: string;
-    token:string
-    rol: UserRol;
-    idPeluqueria: number;
+    accountId: string;
+    accessToken:string
+
 }
 export enum UserRol{
     ADMIN="ADMIN",

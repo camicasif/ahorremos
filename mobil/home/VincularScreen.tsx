@@ -19,7 +19,7 @@ export default function VincularScreen() {
     if (!code.trim()) {
       alert('Por favor, ingresa un código válido');
       return;
-    }
+    }cd
     console.log(`Código vinculado: ${code}`);
     alert(`Código vinculado con éxito: ${code}`);
   };
