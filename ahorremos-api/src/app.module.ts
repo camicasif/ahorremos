@@ -25,6 +25,8 @@ import { AccountService } from './accounts/account.service';
 import { AccountController } from './accounts/accountController';
 import { SharedAccountService } from './sharedAccounts/sharedAccount.service';
 import { SharedAccountController } from './sharedAccounts/sharedAccountController';
+import { PaymentPlanController } from './paymentPlans/paymentPlanController';
+import { PaymentPlanService } from './paymentPlans/paymentPlan.service';
 
 @Module({
   imports: [
@@ -66,8 +68,8 @@ import { SharedAccountController } from './sharedAccounts/sharedAccountControlle
     TypeOrmModule.forFeature([ User,  Rank,  SharedAccount,  Payment, PaymentPlan, Account]),
 
   ],
-  controllers: [AppController, UserController, AuthController, AccountController, SharedAccountController],
-  providers: [AppService, UserService, JwtStrategy, AuthService, AccountService, SharedAccountService],
+  controllers: [AppController, UserController, AuthController, AccountController, SharedAccountController, PaymentPlanController],
+  providers: [AppService, UserService, JwtStrategy, AuthService, AccountService, SharedAccountService, PaymentPlanService],
 })
 export class AppModule {
 
