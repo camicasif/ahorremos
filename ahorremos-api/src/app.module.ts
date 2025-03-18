@@ -38,7 +38,7 @@ import { AccountController } from './accounts/accountController';
       host: "127.0.0.1",
       port: 5432,
       username: "postgres",
-      password: "090702",
+      password: "1234",
       //password:"admin",
       database: "ahorremos",
       autoLoadEntities: true,
