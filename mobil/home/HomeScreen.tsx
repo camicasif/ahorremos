@@ -136,6 +136,8 @@ export default function HomeScreen() {
           />
           <Text>Vincular</Text>
         </TouchableOpacity>
+
+        
         <TouchableOpacity style={styles.button}>
           <Image
             source={require("../assets/btnpay.png")}
