@@ -79,7 +79,7 @@ export default function HomeScreen() {
               <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Vincular')}>
                   <Text>Vincular</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.button}>
+              <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Peluqueria')}>
                   <Text>Plan de pagos</Text>
               </TouchableOpacity>
           </View>

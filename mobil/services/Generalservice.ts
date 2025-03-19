@@ -3,6 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axiosInstance, {getToken} from "../config/axiosConfig";
 import { AccountPlanDetailResponse } from '../models/SharedAccount';
 import axios from 'axios';
+import { PeluqueriaServiciosResponseDto } from '../models/Peluqueria.interface';
 
 const API_URL = '/api/account';
 
@@ -105,15 +106,15 @@ export const getAccountPlanDetail = async (accountId: number): Promise<AccountPl
 //         throw error; // Lanza el error para que pueda ser manejado donde se llama a esta función
 //     }
 // };
-// export const obtenerServiciosPeluqueria = async (id: number): Promise<PeluqueriaServiciosResponseDto> => {
-//     try {
-//         const response = await axiosInstance.get<PeluqueriaServiciosResponseDto>(`/api/v1/peluqueria/${id}`);
-//         return response.data as PeluqueriaServiciosResponseDto;
-//     } catch (error) {
-//         console.error('Error al obtener los servicios de la peluquería:', error);
-//         throw error;
-//     }
-// };
+export const obtenerServiciosPeluqueria = async (id: number): Promise<PeluqueriaServiciosResponseDto> => {
+    try {
+        const response = await axiosInstance.get<PeluqueriaServiciosResponseDto>(`/api/v1/peluqueria/${id}`);
+        return response.data as PeluqueriaServiciosResponseDto;
+    } catch (error) {
+        console.error('Error al obtener los servicios de la peluquería:', error);
+        throw error;
+    }
+};
 //
 // export interface PeluqueriaFilterParams {
 //     onSite?: boolean;
