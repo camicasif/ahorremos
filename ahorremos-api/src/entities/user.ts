@@ -25,7 +25,7 @@ export class User {
     example: 'Password123!',
     nullable: true,
   })
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'varchar', length: 70, nullable: true })
   password?: string | null;
 
   @ApiProperty({

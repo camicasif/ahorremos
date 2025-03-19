@@ -17,12 +17,16 @@ import { AuthController } from './auth/authController';
 
 import Rank from './entities/rank';
 import { SharedAccount } from './entities/sharedAccount';
-import { SharedAccountMembers } from './entities/sharedAccountMembers';
+
 import { Payment } from './entities/payment';
 import { PaymentPlan } from './entities/paymentPlan';
 import { Account } from './entities/account';
 import { AccountService } from './accounts/account.service';
 import { AccountController } from './accounts/accountController';
+import { SharedAccountService } from './sharedAccounts/sharedAccount.service';
+import { SharedAccountController } from './sharedAccounts/sharedAccountController';
+import { PaymentPlanController } from './paymentPlans/paymentPlanController';
+import { PaymentPlanService } from './paymentPlans/paymentPlan.service';
 
 @Module({
   imports: [
@@ -38,13 +42,13 @@ import { AccountController } from './accounts/accountController';
       host: "127.0.0.1",
       port: 5432,
       username: "postgres",
-      password: "090702",
+      password: "1234",
       //password:"admin",
       database: "ahorremos",
       autoLoadEntities: true,
       synchronize: true, // Esto sincronizará las entidades con la base de datos automáticamente (solo para desarrollo)
       logging: true, // Esto habilitará el registro de consultas SQL en la consola  
-      entities:[  User, Rank, SharedAccount, SharedAccountMembers, Payment, PaymentPlan, Account]  
+      entities:[  User, Rank, SharedAccount, Payment, PaymentPlan, Account]  
     }),
 
     // TypeOrmModule.forRoot({
@@ -61,11 +65,11 @@ import { AccountController } from './accounts/accountController';
     // }),
 
 
-    TypeOrmModule.forFeature([ User,  Rank,  SharedAccount, SharedAccountMembers, Payment, PaymentPlan, Account]),
+    TypeOrmModule.forFeature([ User,  Rank,  SharedAccount,  Payment, PaymentPlan, Account]),
 
   ],
-  controllers: [AppController, UserController, AuthController, AccountController],
-  providers: [AppService, UserService, JwtStrategy, AuthService, AccountService],
+  controllers: [AppController, UserController, AuthController, AccountController, SharedAccountController, PaymentPlanController],
+  providers: [AppService, UserService, JwtStrategy, AuthService, AccountService, SharedAccountService, PaymentPlanService],
 })
 export class AppModule {
 
