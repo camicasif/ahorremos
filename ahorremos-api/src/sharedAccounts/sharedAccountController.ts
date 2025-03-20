@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Delete, Body } from '@nestjs/common';
+import { Controller, Post, Get, Delete, Body, Param } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { SharedAccountService } from './sharedAccount.service';
 import { SharedAccount } from 'src/entities/sharedAccount';
@@ -76,4 +76,39 @@ export class SharedAccountController {
   async deleteSharedAccount(@Body() data: any): Promise<void> {
     return this.sharedAccountService.deleteSharedAccount(data.id);
   }
+
+
+  @Get(':id')
+    @ApiOperation({
+        summary: 'Obtener una cuenta compartida por ID de cuenta',
+        description: 'Devuelve la primera cuenta compartida asociada a la cuenta dada.',
+    })
+    @ApiResponse({
+        status: 200,
+        description: 'Shared account encontrada exitosamente.',
+        schema: {
+            example: {
+                sharedAccountId: 23,
+                totalAmount: 0,
+                accounts: [
+                    { idAccount: 23, balance: 34, name: 'Sebas', lastname: 'Morales' },
+                    { idAccount: 24, balance: 50, name: 'Carlos', lastname: 'Gonzalez' }
+                ]
+            }
+        }
+    })
+    @ApiResponse({
+        status: 404,
+        description: 'Shared account not found.',
+        schema: {
+            example: { error: 'Shared account not found' }
+        }
+    })
+    async getSharedAccountByIdAccount(@Param('id') id: string): Promise<any> {
+        return this.sharedAccountService.getSharedAccountByIdAccount(id);
+    }
+
+
+
+
 }

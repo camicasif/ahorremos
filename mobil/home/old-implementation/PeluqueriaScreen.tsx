@@ -13,8 +13,8 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { Card, Button } from 'react-native-paper'; // Usar Button de react-native-paper
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { obtenerServiciosPeluqueria } from '../services/Generalservice';
-import { PeluqueriaServiciosResponseDto, Servicio, Disponibilidad } from '../models/Peluqueria.interface';
+import { obtenerServiciosPeluqueria } from '../../services/Generalservice';
+import { PeluqueriaServiciosResponseDto, Servicio, Disponibilidad } from '../../models/Peluqueria.interface';
 import {GestureHandlerRootView, PanGestureHandler} from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
@@ -22,7 +22,9 @@ import {MaterialCommunityIcons} from "@expo/vector-icons";
 const SCREEN_WIDTH = Dimensions.get('window').width; // Get screen width
 
 export default function PeluqueriaScreen({ route }) {
-    const { peluqueria } = route.params;
+    // const { peluqueria } = route.params;
+    const peluqueria  = {nombre:"pelu", id:2, descripcion:"23"};
+
     const [servicios, setServicios] = useState<Servicio[]>([]);
     const [disponibilidad, setDisponibilidad] = useState<Disponibilidad[]>([]);
     const [loading, setLoading] = useState(true);
@@ -35,16 +37,17 @@ export default function PeluqueriaScreen({ route }) {
     useLayoutEffect(() => {
         navigation.setOptions({
             headerTitle: peluqueria.nombre,
+
         });
     }, [navigation, peluqueria.nombre]);
 
     useEffect(() => {
         const fetchServicios = async () => {
             try {
-                const data: PeluqueriaServiciosResponseDto = await obtenerServiciosPeluqueria(peluqueria.id);
-                setServicios(data.servicios ?? []);
-                setDisponibilidad(data.disponibilidad ?? []);
-                setUbicacionDescripcion(data.ubicacionDescripcion)
+                // const data: PeluqueriaServiciosResponseDto = await obtenerServiciosPeluqueria(peluqueria.id);
+                setServicios( []);
+                setDisponibilidad( []);
+                setUbicacionDescripcion("Descripcion")
             } catch (error) {
                 console.error('Error al obtener servicios de la peluquería:', error);
             } finally {
@@ -147,7 +150,7 @@ function HeaderComponent({ peluqueria, ubicacion }) {
                 <View style={styles.fixedSizeContainer}>
                     {!showMoreInfo ? (
                         <>
-                            <Image source={{ uri: `data:image/jpg;base64,${peluqueria.imagen}` }} style={styles.image} />
+                            <Image source={{ uri: `../../../mobil/assets/logosweetsavings.png` }} style={styles.image} />
                             <Text style={styles.title}>{peluqueria.nombre}</Text>
                         </>
                     ) : (
@@ -177,7 +180,7 @@ function HeaderComponent({ peluqueria, ubicacion }) {
                                 onPress={() => handleLinkPress('https://www.tiktok.com/@username')}
                             >
                                 <Image
-                                    source={require('../assets/tiktoklogo.png')}
+                                    source={require('../../../mobil/assets/tiktoklogo.png')}
                                     style={styles.iconImage}
                                 />
                                 <Text style={styles.moreInfoLink}>{peluqueria.nombre}</Text>

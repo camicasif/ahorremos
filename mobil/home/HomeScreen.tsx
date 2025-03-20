@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   View,
   StyleSheet,
@@ -21,21 +21,21 @@ export default function HomeScreen() {
     useState<AccountPlanDetailResponse | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchAccountData = async () => {
-      try {
-        // const accountId = await AsyncStorage.getItem('accountId');
-        const accountId = 3;
-        if (accountId) {
-          const data = await getAccountPlanDetail(parseInt(String(accountId)));
-          setAccountData(data);
-        }
-      } catch (error) {
-        console.error("Error fetching account data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    useEffect(() => {
+        const fetchAccountData = async () => {
+            try {
+                // const accountId = await AsyncStorage.getItem('accountId');
+                const accountId = 3;
+                if (accountId) {
+                    const data = await getAccountPlanDetail(parseInt(String(accountId)));
+                    setAccountData(data);
+                }
+            } catch (error) {
+                console.error('Error fetching account data:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
 
     fetchAccountData();
   }, []);
@@ -136,9 +136,9 @@ export default function HomeScreen() {
           />
           <Text>Vincular</Text>
         </TouchableOpacity>
-
-        
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button}
+                          onPress={() => navigation.navigate("Peluqueria")}
+        >
           <Image
             source={require("../assets/btnpay.png")}
             style={{
