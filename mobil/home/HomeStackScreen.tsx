@@ -2,6 +2,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './HomeScreen';
 import VincularScreen from './VincularScreen';
 import PeluqueriaScreen from './old-implementation/PeluqueriaScreen';
+import PagarScreen from './PagarScreen';
 
 const HomeStack = createStackNavigator();
 
@@ -16,6 +17,11 @@ export default function HomeStackScreen() {
       <HomeStack.Screen
         name="Vincular"
         component={VincularScreen}
+        options={{ headerShown: false, title: 'Vincular Cuenta' }}
+      />
+      <HomeStack.Screen
+        name="Pagar"
+        component={PagarScreen}
         options={{ headerShown: false, title: 'Vincular Cuenta' }}
       />
       <HomeStack.Screen

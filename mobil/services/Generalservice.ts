@@ -1,7 +1,7 @@
 import {Auth, AuthResponse, UserRequestDto, UserRespDto} from "../models/Auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axiosInstance, {getToken} from "../config/axiosConfig";
-import { AccountPlanDetailResponse } from '../models/SharedAccount';
+import { AccountPlanDetailResponse, Payment } from '../models/SharedAccount';
 import axios from 'axios';
 import { PeluqueriaServiciosResponseDto } from '../models/Peluqueria.interface';
 
@@ -55,6 +55,15 @@ export const getAccountPlanDetail = async (accountId: number): Promise<AccountPl
     // }
 };
 
+export const abonar = async (body: Payment): Promise<any> => {
+    try {
+        const response = await axiosInstance.post<any>('/api/v1/payment', body);
+        return response.data ;
+    } catch (error) {
+        console.error('Error al crear la cita:', error);
+        throw error;
+    }
+};
 
 
 

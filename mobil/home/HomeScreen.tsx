@@ -108,7 +108,10 @@ export default function HomeScreen() {
       )}
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button}
+                          onPress={() => navigation.navigate("Pagar")}
+
+        >
           <Image
             source={require("../assets/btnpay.png")}
             style={{
