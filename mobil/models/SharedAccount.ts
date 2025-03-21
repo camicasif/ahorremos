@@ -17,9 +17,17 @@ export interface PaymentPlanItem {
   initialDate: string;
   endDate: string;
   paymentPeriod: number;
-  accounts: accountUser[]
+  accounts: AccountUser[]
 }
-export interface accountUser {
+
+export interface PaymentItem {
+  idAccount: number;
+  amount: number;
+  account: AccountUser;
+  date: string;
+}
+
+export interface AccountUser {
   name:string;
   lastName: string;
   idAccount:number;
@@ -38,3 +46,4 @@ export interface Payment {
   amount: number;
   idPaymentPlan: number;
 }
+

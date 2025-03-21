@@ -45,12 +45,12 @@ export const getAccountPlanDetail = async (accountId: number): Promise<AccountPl
             paymentPlan: {
                 id: 5,
                 estimatedBalance: 10000,
-                initialDate: '2024-01-01',
-                endDate: '2024-12-31',
+                initialDate: '01-01-2025',
+                endDate: '31-12-2025',
                 paymentPeriod: 30,
             },
             paymentState: 'NO_CRITIC',
-            actualPaymentDate: '2024-03-15',
+            actualPaymentDate: '25-03-2025',
         };
     // }
 };
