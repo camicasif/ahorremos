@@ -1,7 +1,7 @@
 import {Auth, AuthResponse, UserRequestDto, UserRespDto} from "../models/Auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axiosInstance, {getToken} from "../config/axiosConfig";
-import { AccountPlanDetailResponse } from '../models/SharedAccount';
+import { AccountPlanDetailResponse, Payment } from '../models/SharedAccount';
 import axios from 'axios';
 import { PeluqueriaServiciosResponseDto } from '../models/Peluqueria.interface';
 
@@ -45,16 +45,25 @@ export const getAccountPlanDetail = async (accountId: number): Promise<AccountPl
             paymentPlan: {
                 id: 5,
                 estimatedBalance: 10000,
-                initialDate: '2024-01-01',
-                endDate: '2024-12-31',
+                initialDate: '01-01-2025',
+                endDate: '31-12-2025',
                 paymentPeriod: 30,
             },
             paymentState: 'NO_CRITIC',
-            actualPaymentDate: '2024-03-15',
+            actualPaymentDate: '25-03-2025',
         };
     // }
 };
 
+export const abonar = async (body: Payment): Promise<any> => {
+    try {
+        const response = await axiosInstance.post<any>('/api/v1/payment', body);
+        return response.data ;
+    } catch (error) {
+        console.error('Error al crear la cita:', error);
+        throw error;
+    }
+};
 
 
 

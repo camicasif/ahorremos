@@ -11,6 +11,27 @@ export interface PaymentPlan {
   paymentPeriod: number;
 }
 
+export interface PaymentPlanItem {
+  id: number;
+  estimatedBalance: number;
+  initialDate: string;
+  endDate: string;
+  paymentPeriod: number;
+  accounts: AccountUser[]
+}
+
+export interface PaymentItem {
+  idAccount: number;
+  amount: number;
+  account: AccountUser;
+  date: string;
+}
+
+export interface AccountUser {
+  name:string;
+  lastName: string;
+  idAccount:number;
+}
 export interface AccountPlanDetailResponse {
   accountId: number;
   balance: number;
@@ -19,3 +40,10 @@ export interface AccountPlanDetailResponse {
   paymentState: 'CRITIC' | 'NO_CRITIC';
   actualPaymentDate: string;
 }
+
+export interface Payment {
+  idAccount: number;
+  amount: number;
+  idPaymentPlan: number;
+}
+
