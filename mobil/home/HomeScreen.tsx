@@ -12,6 +12,7 @@ import { getAccountPlanDetail } from "../services/Generalservice";
 import { useAppTheme } from "../config/ThemeContext";
 import { AccountPlanDetailResponse } from "../models/SharedAccount";
 import { useNavigation } from "@react-navigation/native";
+import moment from 'moment';
 
 export default function HomeScreen() {
   const { theme } = useAppTheme();
@@ -73,7 +74,7 @@ export default function HomeScreen() {
           <View style={{ flexDirection: "row", gap: 25, marginTop: 30 }}>
             <View>
               <Text style={styles.savingsTitle}>Próxima fecha de abono</Text>
-              <Text style={styles.amount}>{accountData.actualPaymentDate}</Text>
+              <Text style={styles.amount}>{moment(accountData.actualPaymentDate).format("DD/MM/YYYY")}</Text>
             </View>
 
             <View style={{ flex: 0.6 }}></View>
