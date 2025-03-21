@@ -27,6 +27,8 @@ import { SharedAccountService } from './sharedAccounts/sharedAccount.service';
 import { SharedAccountController } from './sharedAccounts/sharedAccountController';
 import { PaymentPlanController } from './paymentPlans/paymentPlanController';
 import { PaymentPlanService } from './paymentPlans/paymentPlan.service';
+import { PaymentController } from './payments/paymentController';
+import { PaymentService } from './payments/payment.service';
 
 @Module({
   imports: [
@@ -42,7 +44,7 @@ import { PaymentPlanService } from './paymentPlans/paymentPlan.service';
       host: "127.0.0.1",
       port: 5432,
       username: "postgres",
-      password: "1234",
+      password: "090702",
       //password:"admin",
       database: "ahorremos",
       autoLoadEntities: true,
@@ -68,8 +70,8 @@ import { PaymentPlanService } from './paymentPlans/paymentPlan.service';
     TypeOrmModule.forFeature([ User,  Rank,  SharedAccount,  Payment, PaymentPlan, Account]),
 
   ],
-  controllers: [AppController, UserController, AuthController, AccountController, SharedAccountController, PaymentPlanController],
-  providers: [AppService, UserService, JwtStrategy, AuthService, AccountService, SharedAccountService, PaymentPlanService],
+  controllers: [AppController, UserController, AuthController, AccountController, SharedAccountController, PaymentPlanController, PaymentController],
+  providers: [AppService, UserService, JwtStrategy, AuthService, AccountService, SharedAccountService, PaymentPlanService, PaymentService],
 })
 export class AppModule {
 
