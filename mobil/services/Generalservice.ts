@@ -1,7 +1,12 @@
 import {Auth, AuthResponse, UserRequestDto, UserRespDto} from "../models/Auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axiosInstance, {getToken} from "../config/axiosConfig";
-import { AccountPlanDetailResponse, Payment } from '../models/SharedAccount';
+import {
+    AccountPlanDetailResponse, codeResponse, CreatePaymentPlanRequest, CreatePaymentPlanResponse,
+    CreateSharedAccountRequest,
+    CreateSharedAccountResponse,
+    Payment, SharedAccountResponse,
+} from '../models/SharedAccount';
 import axios from 'axios';
 import { PeluqueriaServiciosResponseDto } from '../models/Peluqueria.interface';
 
@@ -57,7 +62,7 @@ export const getAccountPlanDetail = async (accountId: number): Promise<AccountPl
 
 export const abonar = async (body: Payment): Promise<any> => {
     try {
-        const response = await axiosInstance.post<any>('/api/v1/payment', body);
+        const response = await axiosInstance.post<any>('/payment', body);
         return response.data ;
     } catch (error) {
         console.error('Error al crear la cita:', error);
@@ -67,12 +72,75 @@ export const abonar = async (body: Payment): Promise<any> => {
 
 
 
+export const generateCode = async (accountId: string): Promise<string> => {
+    try {
+        const response = await axiosInstance.get<string>(`/accounts/code/${accountId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error generating code:', error);
+        throw error;
+    }
+};
+
+export const getInfoCode = async (code: string): Promise<codeResponse> => {
+    try {
+        const response = await axiosInstance.get<codeResponse>(`/accounts/info/${code}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error generating code:', error);
+        throw error;
+    }
+};
+
+export const createSharedAccount = async (
+  body: CreateSharedAccountRequest
+): Promise<CreateSharedAccountResponse> => {
+    try {
+        const response = await axiosInstance.post<CreateSharedAccountResponse>('/shared-accounts', body);
+        return response.data;
+    } catch (error) {
+        console.error('Error creating shared account:', error);
+        throw error;
+    }
+};
 
 
 
+/**
+ * Obtiene la información de una cuenta compartida.
+ * @param id - El ID de la cuenta compartida.
+ * @returns La información de la cuenta compartida.
+ */
+export const getSharedAccount = async (id: string): Promise<SharedAccountResponse> => {
+    try {
+        const response = await axiosInstance.get<SharedAccountResponse>(`/shared-accounts/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error obteniendo la cuenta compartida:", error);
+        throw error;
+    }
+};
 
-
-
+/**
+ * Crea un plan de pagos.
+ * @param body - El cuerpo de la solicitud para crear el plan de pagos.
+ * @returns La respuesta del servidor.
+ */
+export const createPaymentPlan = async (body: {
+    end_date: string;
+    payment_period: number;
+    initial_date: string;
+    sharedAccount: number;
+    estimated_balance: string
+}): Promise<CreatePaymentPlanResponse> => {
+    try {
+        const response = await axiosInstance.post<CreatePaymentPlanResponse>("/payment-plans", body);
+        return response.data;
+    } catch (error) {
+        console.error("Error creando el plan de pagos:", error);
+        throw error;
+    }
+};
 
 
 

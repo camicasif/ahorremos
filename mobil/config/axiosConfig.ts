@@ -35,9 +35,10 @@ axiosInstance.interceptors.response.use(
             showSnackbar('Sesión expirada. Por favor, inicia sesión nuevamente.');
         } else if (error.response && error.response.status === 401) {
             showSnackbar('Usuario o contraseña incorrecto.');
-        } else {
-            showSnackbar('Algo salió mal. Por favor, intenta nuevamente.');
         }
+        // else {
+        //     showSnackbar('Algo salió mal. Por favor, intenta nuevamente.');
+        // }
         return Promise.reject(error);
     }
 );
