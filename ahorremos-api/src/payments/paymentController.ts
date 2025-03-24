@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Delete, Put, Body, Param } from '@nestjs/common';
+import { Controller, Post, Get, Delete, Put, Body, Param, NotFoundException, HttpException, HttpStatus } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
 import { PaymentService } from './payment.service';
 import { Payment } from 'src/entities/payment';
@@ -46,6 +46,38 @@ export class PaymentController {
     return this.paymentService.getPaymentById(id);
   }
 
+  @Get('account/:accountId')
+  @ApiOperation({ 
+    summary: 'Obtener un pago por ID de cuenta', 
+    description: 'Devuelve el pago asociado a un ID de cuenta específico.' 
+  })
+  @ApiParam({ 
+    name: 'accountId', 
+    type: 'string', 
+    description: 'ID de la cuenta asociada al pago' 
+  })
+  @ApiResponse({ 
+    status: 200, 
+    description: 'Pago encontrado.', 
+    type: Payment 
+  })
+  @ApiResponse({ 
+    status: 404, 
+    description: 'Pago no encontrado.' 
+  })
+  async getPaymentByAccountId(@Param('accountId') accountId: string): Promise<Payment[]> {
+    const payment = await this.paymentService.getPaymentsByAccountId(accountId);
+    
+    if (!payment) {
+      throw new NotFoundException('Pago no encontrado');
+    }
+
+    return payment;
+  }
+
+
+
+
   @Delete(':id')
   @ApiOperation({ summary: 'Eliminar un pago', description: 'Elimina un pago por su ID.' })
   @ApiParam({ name: 'id', type: 'number', description: 'ID del pago a eliminar' })
@@ -73,4 +105,39 @@ export class PaymentController {
   async updatePayment(@Param('id') id: number, @Body() updateData: Partial<Payment>): Promise<Payment> {
     return this.paymentService.updatePayment(id, updateData);
   }
+
+
+
+
+  @Post('pay')
+  @ApiOperation({
+    summary: 'Realizar un pago',
+    description: 'Permite abonar a un plan de pagos, deduciendo el saldo de la cuenta y sumándolo a la cuenta compartida.',
+  })
+  @ApiBody({
+    description: 'Datos necesarios para realizar el pago.',
+    type: Object,
+    examples: {
+      example1: {
+        summary: 'Ejemplo de pago',
+        value: {
+          idAccount: '123e4567-e89b-12d3-a456-426614174000',
+          amount: 100.0,
+          idPaymentPlan: 1,
+        },
+      },
+    },
+  })
+  @ApiResponse({ status: 200, description: 'Pago realizado con éxito.', schema: { example: { status: 'ok' } } })
+  @ApiResponse({ status: 404, description: 'Error en el pago.', schema: { example: { error: 'No se pudo realizar el pago' } } })
+  async payPayment(@Body() paymentData: { idAccount: string; amount: number; idPaymentPlan: number }) {
+    const result = await this.paymentService.payPaymentPlan(paymentData);
+
+    if (result.status === 'ok') {
+      return result;
+    }
+
+    throw new HttpException(result, HttpStatus.NOT_FOUND);
+  }
+
 }

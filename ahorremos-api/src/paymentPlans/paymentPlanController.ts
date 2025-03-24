@@ -1,5 +1,5 @@
-import { Controller, Post, Get, Delete, Body, HttpException, HttpStatus } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
+import { Controller, Post, Get, Delete, Body, HttpException, HttpStatus, NotFoundException, Param } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
 import { PaymentPlanService } from './paymentPlan.service';
 import { PaymentPlan } from 'src/entities/paymentPlan';
 
@@ -89,4 +89,37 @@ export class PaymentPlanController {
   async deletePaymentPlan(@Body() body: any): Promise<void> {
     return this.paymentPlanService.deletePaymentPlan(body.id);
   }
+
+
+
+
+  @Get(':idAccount')
+  @ApiOperation({ 
+    summary: 'Obtener planes de pago por ID de cuenta', 
+    description: 'Devuelve una lista de todos los planes de pago asociados a una cuenta específica.'
+  })
+  @ApiParam({ 
+    name: 'idAccount', 
+    type: 'string', 
+    description: 'ID de la cuenta para buscar los planes de pago' 
+  })
+  @ApiResponse({ 
+    status: 200, 
+    description: 'Lista de planes de pago encontrados.' 
+  })
+  @ApiResponse({ 
+    status: 404, 
+    description: 'No se encontraron planes de pago para la cuenta proporcionada.' 
+  })
+  async getPaymentPlansByAccountId(@Param('idAccount') idAccount: string) {
+    const paymentPlans = await this.paymentPlanService.getPaymentPlansByAccountId(idAccount);
+
+    if (!paymentPlans.length) {
+      throw new NotFoundException('No se encontraron planes de pago para esta cuenta');
+    }
+
+    return paymentPlans;
+  }
+
+
 }

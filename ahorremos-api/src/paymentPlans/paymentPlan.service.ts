@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { PaymentPlan } from 'src/entities/paymentPlan';
 import { SharedAccount } from 'src/entities/sharedAccount';
 import { Payment } from 'src/entities/payment';
+import { Account } from 'src/entities/account';
 
 @Injectable()
 export class PaymentPlanService {
@@ -12,8 +13,11 @@ export class PaymentPlanService {
     private readonly paymentPlanRepository: Repository<PaymentPlan>,
     @InjectRepository(SharedAccount)
     private readonly sharedAccountRepository: Repository<SharedAccount>,
+    
     @InjectRepository(Payment)
     private readonly paymentRepository: Repository<Payment>,
+    @InjectRepository(Account)
+    private readonly accountRepository: Repository<Account>,
   ) {}
 
   async createPaymentPlan(paymentPlanData: Partial<PaymentPlan>): Promise<any> {
@@ -94,6 +98,10 @@ export class PaymentPlanService {
   }
   
 
+
+  
+
+
   async getPaymentPlans(): Promise<PaymentPlan[]> {
     try {
       return await this.paymentPlanRepository.find({ relations: ['sharedAccount'] });
@@ -128,4 +136,53 @@ export class PaymentPlanService {
       throw error;
     }
   }
+
+
+
+
+  async getPaymentPlansByAccountId(accountId: string): Promise<any[]> {
+    try {
+      // Buscar las sharedAccounts en las que participa la cuenta
+      const sharedAccounts = await this.sharedAccountRepository.find({
+        where: [{ account1: { id: accountId } }, { account2: { id: accountId } }],
+        relations: ['account1', 'account1.user', 'account2', 'account2.user'],
+      });
+  
+      if (!sharedAccounts.length) {
+        throw new Error('No se encontraron cuentas compartidas para esta cuenta');
+      }
+  
+      // Obtener los payment plans asociados a estas sharedAccounts
+      const paymentPlans = await this.paymentPlanRepository.find({
+        where: sharedAccounts.map(sa => ({ sharedAccount: sa })),
+        relations: ['sharedAccount', 'sharedAccount.account1', 'sharedAccount.account1.user', 'sharedAccount.account2', 'sharedAccount.account2.user'],
+      });
+  
+      // Transformar los resultados al formato deseado
+      return paymentPlans.map(plan => ({
+        idPaymentPlan: plan.id,
+        estimatedBalance: plan.estimated_balance,
+        initialDate: plan.initial_date, // Formato YYYY-MM-DD
+        endDate: plan.end_date,
+        paymentPeriod: plan.payment_period,
+        accounts: [
+          {
+            name: plan.sharedAccount.account1.user.name,
+            lastname: plan.sharedAccount.account1.user.lastName,
+            idAccount: plan.sharedAccount.account1.id,
+          },
+          {
+            name: plan.sharedAccount.account2.user.name,
+            lastname: plan.sharedAccount.account2.user.lastName,
+            idAccount: plan.sharedAccount.account2.id,
+          },
+        ],
+      }));
+    } catch (error) {
+      throw new Error(`Error al obtener los planes de pago: ${error.message}`);
+    }
+  }
+  
+  
+
 }

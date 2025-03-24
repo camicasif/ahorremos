@@ -141,7 +141,7 @@ export default function HomeScreen() {
           <Text>Vincular</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button}
-                          onPress={() => navigation.navigate("Peluqueria")}
+                          onPress={() => navigation.navigate("PlanPagos")}
         >
           <Image
             source={require("../assets/btnpay.png")}
