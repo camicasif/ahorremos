@@ -3,48 +3,9 @@ import { View, StyleSheet, ActivityIndicator, FlatList, TouchableOpacity } from 
 import { Text, Card } from 'react-native-paper';
 import { useAppTheme } from '../config/ThemeContext';
 import { PaymentPlanItem, AccountUser } from '../models/SharedAccount';
+import { getPaymentPlansByAccount } from '../services/Generalservice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const fetchPaymentPlans = async (): Promise<PaymentPlanItem[]> => {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve([
-                {
-                    id: 1,
-                    estimatedBalance: 5000,
-                    initialDate: '2025-03-01',
-                    endDate: '2025-12-01',
-                    paymentPeriod: 30,
-                    accounts: [
-                        { name: 'Camila', lastName: 'Perez', idAccount: 1 },
-                        { name: 'Sebastian', lastName: 'Morales', idAccount: 2 }
-                    ]
-                },
-                {
-                    id: 2,
-                    estimatedBalance: 3000,
-                    initialDate: '2025-04-01',
-                    endDate: '2025-10-01',
-                    paymentPeriod: 15,
-                    accounts: [
-                        { name: 'Carlos', lastName: 'Lopez', idAccount: 3 },
-                        { name: 'Camila', lastName: 'Perez', idAccount: 4 }
-                    ]
-                },
-                {
-                    id: 3,
-                    estimatedBalance: 2450,
-                    initialDate: '2025-10-01',
-                    endDate: '2026-01-01',
-                    paymentPeriod: 15,
-                    accounts: [
-                        { name: 'Carlos', lastName: 'Lopez', idAccount: 3 },
-                        { name: 'Camila', lastName: 'Perez', idAccount: 4 }
-                    ]
-                }
-            ]);
-        }, 1000);
-    });
-};
 
 export default function PlanPagosScreen({ navigation }) {
     const { theme } = useAppTheme();
@@ -53,13 +14,25 @@ export default function PlanPagosScreen({ navigation }) {
     const [loading, setLoading] = useState(true);
     const [paymentPlans, setPaymentPlans] = useState<PaymentPlanItem[]>([]);
 
+
     useEffect(() => {
-        const loadPaymentPlans = async () => {
-            const data = await fetchPaymentPlans();
-            setPaymentPlans(data);
-            setLoading(false);
+        const fetchPaymentPlans = async () => {
+            try {
+                // Obtener el accountId (ejemplo con un valor hardcodeado)
+                const accountId = await AsyncStorage.getItem('accountId');
+                if (!accountId) return;
+                const paymentPlans = await getPaymentPlansByAccount(accountId);
+                setPaymentPlans(paymentPlans);
+                setLoading(false);
+
+            } catch (error) {
+                console.error("Error:", error);
+            } finally {
+                setLoading(false);
+            }
         };
-        loadPaymentPlans();
+
+        fetchPaymentPlans();
     }, []);
 
     if (loading) {
@@ -70,10 +43,10 @@ export default function PlanPagosScreen({ navigation }) {
       <TouchableOpacity onPress={() => navigation.navigate('Movimientos')}>
           <Card style={styles.card}>
               <Card.Content>
-                  <Text style={styles.name}>Plan #{item.id}</Text>
+                  <Text style={styles.name}>Plan #{item.idPaymentPlan}</Text>
                   <Text style={styles.balance}>Saldo estimado: {item.estimatedBalance} Bs</Text>
                   <Text style={styles.date}>Inicio: {item.initialDate} - Fin: {item.endDate}</Text>
-                  <Text style={styles.accounts}>Participantes: {item.accounts.map(a => `${a.name} ${a.lastName}`).join(', ')}</Text>
+                  <Text style={styles.accounts}>Participantes: {item.accounts.map(a => `${a.name} ${a.lastname}`).join(', ')}</Text>
               </Card.Content>
           </Card>
       </TouchableOpacity>
@@ -83,7 +56,7 @@ export default function PlanPagosScreen({ navigation }) {
       <View style={styles.container}>
           <FlatList
             data={paymentPlans}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item) => item.idPaymentPlan.toString()}
             renderItem={renderItem}
           />
       </View>

@@ -5,9 +5,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const axiosInstance = axios.create({
     // baseURL: 'http://192.168.1.144:8081', // Elige esta baseURL
     // baseURL: 'http://172.20.10.3:3000',
-//   baseURL: 'http://192.168.2.109:3000',
+  baseURL: 'http://192.168.2.109:3000',
 
-    baseURL: 'http://172.16.41.21:3000',
+    // baseURL: 'http://172.16.41.21:3000',
 });
 
 // Interceptor para agregar el token a las solicitudes

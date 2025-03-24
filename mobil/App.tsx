@@ -11,8 +11,6 @@ import HomeScreen from "./home/HomeScreen";
 import {LightColor, DarkColor} from "./config/themes";
 import axiosInstance from "./config/axiosConfig";
 import Menu from './home/NavigationScreen';
-import MenuPeluquero from "./home/NavigationPeluqueroScreen";
-import CitaDetailScreen from "./home/CitaDetailScreen"; // Import the Menu component that contains the bottom tab navigator
 import LandingScreen from './authentication/LandingScreen';
 
 

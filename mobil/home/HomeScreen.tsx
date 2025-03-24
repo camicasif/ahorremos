@@ -30,7 +30,8 @@ export default function HomeScreen() {
                 if (accountId) {
                     const data = await getAccountPlanDetail(parseInt(String(accountId)));
                     setAccountData(data);
-                }
+                  const paymentPlanId = data.paymentPlan?.id ?? 3;
+                  await AsyncStorage.setItem("idPaymentPlan", paymentPlanId.toString());                }
             } catch (error) {
                 console.error('Error fetching account data:', error);
             } finally {
