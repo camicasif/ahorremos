@@ -31,9 +31,10 @@ export default function HomeScreen() {
                 if (accountId) {
                     const data = await getAccountPlanDetail(accountId);
                     const dataShared = await getSharedAccount(accountId);
-                    console.log("la data prim es",  data[0])
-                    let parsedData = (accountId == "49b64129-9022-4dd8-9e51-5ce698a242a2") ? { paymentPlan:data[0], paymentState: "CRITIC"} : {paymentPlan:data[0], paymentState: "NO_CRITIC"}
-                    
+                    console.log("la data prim es",  data)
+
+
+                    let parsedData = (accountId != "5327f3f3-20aa-4789-84df-15c1342f154a") ? { paymentPlan:data[0], paymentState: "CRITIC"} :  data
                     console.log("la data es", parsedData)
                     setAccountData(parsedData);
                 }
