@@ -114,9 +114,6 @@ export class PaymentPlanController {
   async getPaymentPlansByAccountId(@Param('idAccount') idAccount: string) {
     const paymentPlans = await this.paymentPlanService.getPaymentPlansByAccountId(idAccount);
 
-    if (!paymentPlans.length) {
-     return null;
-    }
 
     return paymentPlans;
   }
