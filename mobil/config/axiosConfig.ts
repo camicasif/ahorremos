@@ -6,17 +6,18 @@ const axiosInstance = axios.create({
     // baseURL: 'http://192.168.1.144:8081', // Elige esta baseURL
     // baseURL: 'http://172.20.10.3:3000',
 //   baseURL: 'http://192.168.2.109:3000',
-
-    baseURL: 'http://172.16.41.21:3000',
+  baseURL: 'http://192.168.0.3:3000',
+    // baseURL: 'http://172.16.41.21:3000',
 });
 
 // Interceptor para agregar el token a las solicitudes
 axiosInstance.interceptors.request.use(
     async (config) => {
+        console.log("Solicitando URL:", config.url);
         const token = await getToken(); // Asume que tienes una función para obtener el token
         console.log(`Realizando petición a la IP: ${axiosInstance.defaults.baseURL}`);
 
-        if (token && !config.url.includes('login')) {
+        if (token && !config.url!!.includes('login')) {
             config.headers.Authorization = `Bearer ${token}`;
         }
 
