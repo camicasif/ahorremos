@@ -44,7 +44,7 @@ import { PaymentService } from './payments/payment.service';
       host: "127.0.0.1",
       port: 5432,
       username: "postgres",
-      password: "1234",
+      password: "090702",
       //password:"admin",
       database: "ahorremos",
       autoLoadEntities: true,

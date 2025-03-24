@@ -42,7 +42,7 @@ export class PaymentPlanService {
       }
   
       // Crear el payment plan
-      const paymentPlan = this.paymentPlanRepository.save({
+      const savedPaymentPlan = this.paymentPlanRepository.save({
         ...paymentPlanData,
         sharedAccount,
       });
@@ -67,6 +67,7 @@ export class PaymentPlanService {
                     amount: parseFloat(paymentAmount.toFixed(2)),
                     date: new Date(currentDate),
                     is_paid: false,
+                    paymentPlan: (await savedPaymentPlan),
                 })
             );
             
@@ -76,6 +77,7 @@ export class PaymentPlanService {
                     amount: parseFloat(paymentAmount.toFixed(2)),
                     date: new Date(currentDate),
                     is_paid: false,
+                    paymentPlan: (await savedPaymentPlan),
                 })
             );
 
@@ -90,7 +92,7 @@ export class PaymentPlanService {
      //const paymentPlanCreated=  await this.paymentPlanRepository.save(paymentPlan);
   
       // Retornar el formato que deseas
-      return  paymentPlan;
+      return  savedPaymentPlan;
     } catch (error) {
       // Si hay algún error, devolver un mensaje general de error
       throw error;
