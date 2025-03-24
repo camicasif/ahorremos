@@ -5,7 +5,7 @@ import {
     AccountPlanDetailResponse, codeResponse, CreatePaymentPlanRequest, CreatePaymentPlanResponse,
     CreateSharedAccountRequest,
     CreateSharedAccountResponse,
-    Payment, SharedAccountResponse,
+    Payment, PaymentPlan, PaymentPlanItem, SharedAccountResponse,
 } from '../models/SharedAccount';
 import axios from 'axios';
 import { PeluqueriaServiciosResponseDto } from '../models/Peluqueria.interface';
@@ -154,6 +154,31 @@ export const createPaymentPlan = async (body: {
 
 
 
+
+/**
+ * Obtiene los planes de pago de una cuenta específica
+ * @param idAccount - ID de la cuenta (UUID)
+ * @returns Lista de planes de pago asociados a la cuenta
+ */
+export const getPaymentPlansByAccount = async (idAccount: string): Promise<PaymentPlanItem[]> => {
+    try {
+        const response = await axiosInstance.get<PaymentPlanItem[]>(`/payment-plans/${idAccount}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error obteniendo planes de pago:", error);
+        throw error;
+    }
+};
+
+export const getPaymentsByAccount = async (idAccount: string): Promise<PaymentItem[]> => {
+    try {
+        const response = await axiosInstance.get<PaymentItem[]>(`/payments/account/${idAccount}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error obteniendo planes de pago:", error);
+        throw error;
+    }
+};
 
 
 

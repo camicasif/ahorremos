@@ -37,7 +37,12 @@ export default function HomeScreen() {
                     let parsedData = (accountId != "5327f3f3-20aa-4789-84df-15c1342f154a") ? { paymentPlan:data[0], paymentState: "CRITIC"} :  data
                     console.log("la data es", parsedData)
                     setAccountData(parsedData);
-                }
+                  const paymentPlanId = parsedData.paymentPlan?.id ?? 3;
+                  await AsyncStorage.setItem("idPaymentPlan", paymentPlanId.toString());
+
+
+
+            }
             } catch (error) {
                 console.error('Error fetching account data:', error);
             } finally {
@@ -95,7 +100,7 @@ export default function HomeScreen() {
             ]}
           >
             <Text     style={[
-            
+
               accountData.paymentState === "CRITIC"
                 ? styles.critic
                 : styles.normal,

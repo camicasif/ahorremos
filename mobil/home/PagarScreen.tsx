@@ -3,6 +3,7 @@ import { View, StyleSheet, Alert } from 'react-native';
 import { useAppTheme } from '../config/ThemeContext';
 import { Button, Text, TextInput } from 'react-native-paper';
 import { abonar } from '../services/Generalservice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const PagarScreen = ({ navigation }) => {
   const { theme } = useAppTheme();
@@ -16,7 +17,14 @@ const PagarScreen = ({ navigation }) => {
     const monto = parseInt(amount, 10);
     if (!isNaN(monto) && monto > 0) {
       try {
-        const response = await abonar({ idAccount: 1, amount: monto, idPaymentPlan: 1 });
+        const accountId = await AsyncStorage.getItem('accountId')
+        if (!accountId){
+          Alert.alert('Problema al realizar el pago');
+          return;        }
+
+        const paymentPlanId = await AsyncStorage.getItem('idPaymentPlan')??3;
+
+        const response = await abonar({ idAccount: accountId, amount: monto, idPaymentPlan: parseInt(String(paymentPlanId))});
         if (response.status === 'ok') {
           Alert.alert('Pago realizado con éxito', '', [
             { text: 'Ir a inicio', onPress: () => navigation.navigate('HomeMain') }
@@ -34,8 +42,8 @@ const PagarScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Monto Actual: <Text style={styles.value}>{montoActual} Bs.</Text></Text>
-      <Text style={styles.label}>Monto Cuenta Compartida: <Text style={styles.value}>{montoCompartido} Bs.</Text></Text>
+      {/*<Text style={styles.label}>Monto Actual: <Text style={styles.value}>{montoActual} Bs.</Text></Text>*/}
+      {/*<Text style={styles.label}>Monto Cuenta Compartida: <Text style={styles.value}>{montoCompartido} Bs.</Text></Text>*/}
       <TextInput
         style={styles.input}
         label="Monto (Bs)"
@@ -81,6 +89,7 @@ const getStyles = (theme) => StyleSheet.create({
   },
   button: {
     marginTop: 10,
+    backgroundColor:theme.colors.accent
   },
 });
 

@@ -8,6 +8,8 @@ import {
 import { Text, Card } from 'react-native-paper';
 import { useAppTheme } from '../config/ThemeContext';
 import { PaymentItem } from '../models/SharedAccount';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getPaymentPlansByAccount, getPaymentsByAccount } from '../services/Generalservice';
 
 const fetchPayments = async (): Promise<PaymentItem[]> => {
     return new Promise((resolve) => {
@@ -29,13 +31,25 @@ export default function MovimientosScreen() {
     const [payments, setPayments] = useState<PaymentItem[]>([]);
 
     useEffect(() => {
-        const loadPayments = async () => {
-            const data = await fetchPayments();
-            setPayments(data);
-            setLoading(false);
+        const fetchPaymentPlans = async () => {
+            try {
+                // Obtener el accountId (ejemplo con un valor hardcodeado)
+                const accountId = await AsyncStorage.getItem('accountId');
+                if (!accountId) return;
+                const paymentPlans = await getPaymentsByAccount(accountId);
+                setPayments(paymentPlans);
+                setLoading(false);
+
+            } catch (error) {
+                console.error("Error:", error);
+            } finally {
+                setLoading(false);
+            }
         };
-        loadPayments();
+
+        fetchPaymentPlans();
     }, []);
+
 
     if (loading) {
         return <ActivityIndicator size="large" color={theme.colors.primary} />;
@@ -46,8 +60,13 @@ export default function MovimientosScreen() {
           <Card.Content>
               <View style={{flexDirection:"row" ,justifyContent:"space-between",alignItems:"center"}}>
                 <View>
-                <Text style={styles.name}>{`${item.account.name} ${item.account.lastName}`}</Text>
-           
+                    <Text style={{
+                        color: item.is_paid ? 'green' : 'red',
+                        fontWeight: 'bold',
+                        fontSize: 16
+                    }}>
+                        {item.is_paid ? 'Pagado' : 'No pagado'}
+                    </Text>
            <Text style={styles.date}>Fecha: {item.date}</Text>
                 </View>
               <Text style={styles.amount}>Monto: <Text style={{fontWeight:600}}>{item.amount} Bs </Text></Text>
@@ -61,7 +80,7 @@ export default function MovimientosScreen() {
       <View style={styles.container}>
           <FlatList
             data={payments}
-            keyExtractor={(item) => item.idAccount.toString()}
+            keyExtractor={(item) => item.id.toString()}
             renderItem={renderItem}
           />
       </View>
