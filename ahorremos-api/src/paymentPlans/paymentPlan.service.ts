@@ -149,7 +149,7 @@ export class PaymentPlanService {
       });
   
       if (!sharedAccounts.length) {
-        throw new Error('No se encontraron cuentas compartidas para esta cuenta');
+       return null;
       }
   
       // Obtener los payment plans asociados a estas sharedAccounts

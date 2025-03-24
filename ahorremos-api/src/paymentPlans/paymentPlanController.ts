@@ -114,9 +114,6 @@ export class PaymentPlanController {
   async getPaymentPlansByAccountId(@Param('idAccount') idAccount: string) {
     const paymentPlans = await this.paymentPlanService.getPaymentPlansByAccountId(idAccount);
 
-    if (!paymentPlans.length) {
-      throw new NotFoundException('No se encontraron planes de pago para esta cuenta');
-    }
 
     return paymentPlans;
   }

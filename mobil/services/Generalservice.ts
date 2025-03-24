@@ -11,7 +11,7 @@ import axios from 'axios';
 import { PeluqueriaServiciosResponseDto } from '../models/Peluqueria.interface';
 
 const API_URL = '/api/account';
-
+const ENV_URL = 'https://localhost:3000';
 export const login = async (credentials: Auth): Promise<AuthResponse> => {
     try {
         const response = await axiosInstance.post<AuthResponse>('/auth/login', credentials);
@@ -32,33 +32,37 @@ export const login = async (credentials: Auth): Promise<AuthResponse> => {
     }
 };
 
-export const getAccountPlanDetail = async (accountId: number): Promise<AccountPlanDetailResponse> => {
-    // try {
-    //     const response = await axios.get<AccountPlanDetailResponse>(`${API_URL}/${accountId}/plan-detail`);
-    //     return response.data;
-    // } catch (error) {
-    //     console.error('Error fetching account plan details:', error);
-
+export const getAccountPlanDetail = async (accountId: string): Promise<any> => {
+    try {
+        const response = await axiosInstance.get<any>(`/payment-plans/${accountId}`);
+        console.log("URL enviada:", response.config.url);
+        console.log("la respuesta es ",response)
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching account plan details:', error);
+           throw error
+        }
         // Datos quemados como fallback en caso de error
-        return {
-            accountId: accountId,
-            balance: 2500,
-            sharedAccount: {
-                totalAmount: 34,
-                id: 23,
-            },
-            paymentPlan: {
-                id: 5,
-                estimatedBalance: 10000,
-                initialDate: '01-01-2025',
-                endDate: '31-12-2025',
-                paymentPeriod: 30,
-            },
-            paymentState: 'NO_CRITIC',
-            actualPaymentDate: '25-03-2025',
-        };
-    // }
+        // return {
+        //     accountId: accountId,
+        //     balance: 2500,
+        //     sharedAccount: {
+        //         totalAmount: 34,
+        //         id: 23,
+        //     },
+        //     paymentPlan: {
+        //         id: 5,
+        //         estimatedBalance: 10000,
+        //         initialDate: '01-01-2025',
+        //         endDate: '31-12-2025',
+        //         paymentPeriod: 30,
+        //     },
+        //     paymentState: 'NO_CRITIC',
+        //     actualPaymentDate: '25-03-2025',
+        // };
+
 };
+
 
 export const abonar = async (body: Payment): Promise<any> => {
     try {

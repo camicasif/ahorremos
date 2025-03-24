@@ -16,7 +16,7 @@ axiosInstance.interceptors.request.use(
         const token = await getToken(); // Asume que tienes una función para obtener el token
         console.log(`Realizando petición a la IP: ${axiosInstance.defaults.baseURL}`);
 
-        if (token && !config.url.includes('login')) {
+        if (token && !config.url!!.includes('login')) {
             config.headers.Authorization = `Bearer ${token}`;
         }
 
