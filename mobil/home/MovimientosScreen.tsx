@@ -3,85 +3,61 @@ import {
     View,
     StyleSheet,
     ActivityIndicator,
-    TouchableOpacity
+    FlatList
 } from 'react-native';
-import { Text, Chip } from 'react-native-paper';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getAccountPlanDetail } from '../services/Generalservice';
+import { Text, Card } from 'react-native-paper';
 import { useAppTheme } from '../config/ThemeContext';
-import { AccountPlanDetailResponse } from '../models/SharedAccount';
+import { PaymentItem } from '../models/SharedAccount';
+
+const fetchPayments = async (): Promise<PaymentItem[]> => {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve([
+                { idAccount: 1, amount: 100, account: { name: 'Camila', lastName: 'Perez', idAccount: 1 }, date: '20-03-2025' },
+                { idAccount: 2, amount: 200, account: { name: 'Sebastian', lastName: 'Morales', idAccount: 2 }, date: '19-03-2025' },
+                { idAccount: 3, amount: 150, account: { name: 'Camila', lastName: 'Perez', idAccount: 3 }, date: '18-03-2025' },
+            ]);
+        }, 1000);
+    });
+};
 
 export default function MovimientosScreen() {
     const { theme } = useAppTheme();
     const styles = getStyles(theme);
 
-    const [accountData, setAccountData] = useState<AccountPlanDetailResponse | null>(null);
     const [loading, setLoading] = useState(true);
+    const [payments, setPayments] = useState<PaymentItem[]>([]);
 
     useEffect(() => {
-        const fetchAccountData = async () => {
-            try {
-                // const accountId = await AsyncStorage.getItem('accountId');
-                const accountId = 3;
-                if (accountId) {
-                    const data = await getAccountPlanDetail(parseInt(String(accountId)));
-                    setAccountData(data);
-                }
-            } catch (error) {
-                console.error('Error fetching account data:', error);
-            } finally {
-                setLoading(false);
-            }
+        const loadPayments = async () => {
+            const data = await fetchPayments();
+            setPayments(data);
+            setLoading(false);
         };
-
-        fetchAccountData();
-
+        loadPayments();
     }, []);
 
     if (loading) {
         return <ActivityIndicator size="large" color={theme.colors.primary} />;
     }
 
+    const renderItem = ({ item }: { item: PaymentItem }) => (
+      <Card style={styles.card}>
+          <Card.Content>
+              <Text style={styles.name}>{`${item.account.name} ${item.account.lastName}`}</Text>
+              <Text style={styles.amount}>Monto: {item.amount} Bs</Text>
+              <Text style={styles.date}>Fecha: {item.date}</Text>
+          </Card.Content>
+      </Card>
+    );
+
     return (
       <View style={styles.container}>
-          <Text style={styles.savingsTitle}>Saldo en cuenta $</Text>
-          <Text style={styles.amount}>Bs {accountData?.balance ?? 0}</Text>
-
-          {accountData?.sharedAccount ? (
-            <>
-                <Text style={styles.savingsTitle}>Ahorro Compartido $</Text>
-                <Text style={styles.amount}>Bs {accountData.sharedAccount.totalAmount}</Text>
-            </>
-          ) : (
-            <Text style={styles.statusText}>No tienes una cuenta compartida</Text>
-          )}
-
-          {accountData?.paymentPlan ? (
-            <>
-                <Text style={styles.savingsTitle}>Próxima fecha de abono</Text>
-                <Text style={styles.amount}>{accountData.actualPaymentDate}</Text>
-                <Chip style={[styles.chip, accountData.paymentState === 'CRITIC' ? styles.critic : styles.normal]}>
-                    {accountData.paymentState}
-                </Chip>
-                <Text style={styles.statusText}>
-                    {accountData.paymentState === 'CRITIC' ? 'No has abonado' : 'Todo va bien'}
-                </Text>
-            </>
-          ) : (
-            <Text style={styles.statusText}>No tienes un plan de pagos activo</Text>
-          )}
-
-          <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.button}>
-                  <Text>Pagar</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.button}>
-                  <Text>Vincular</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.button}>
-                  <Text>Plan de pagos</Text>
-              </TouchableOpacity>
-          </View>
+          <FlatList
+            data={payments}
+            keyExtractor={(item) => item.idAccount.toString()}
+            renderItem={renderItem}
+          />
       </View>
     );
 }
@@ -89,45 +65,24 @@ export default function MovimientosScreen() {
 const getStyles = (theme) => StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
         backgroundColor: theme.colors.background,
         padding: 20,
     },
-    savingsTitle: {
-        fontSize: 16,
-        color: theme.colors.text,
+    card: {
+        marginBottom: 10,
+        backgroundColor: theme.colors.surface,
+    },
+    name: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: theme.colors.tertiary,
     },
     amount: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginVertical: 5,
+        fontSize: 16,
+        color: theme.colors.onSurface,
     },
-    chip: {
-        paddingHorizontal: 10,
-        marginVertical: 10,
-    },
-    critic: {
-        backgroundColor: 'red',
-        color: 'white',
-    },
-    normal: {
-        backgroundColor: 'green',
-        color: 'white',
-    },
-    statusText: {
+    date: {
         fontSize: 14,
-        color: theme.colors.text,
-        marginBottom: 20,
-    },
-    buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: '100%',
-        marginTop: 20,
-    },
-    button: {
-        alignItems: 'center',
-        padding: 10,
+        color: theme.colors.onSurfaceVariant,
     },
 });

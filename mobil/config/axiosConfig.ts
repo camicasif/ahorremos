@@ -5,9 +5,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const axiosInstance = axios.create({
     // baseURL: 'http://192.168.1.144:8081', // Elige esta baseURL
     // baseURL: 'http://172.20.10.3:3000',
-//   baseURL: 'http://192.168.2.109:3000',
+  baseURL: 'http://192.168.2.109:3000',
 
-    baseURL: 'http://192.168.0.3:3000',
+    // baseURL: 'http://192.168.0.3:3000',
 });
 
 // Interceptor para agregar el token a las solicitudes
@@ -35,9 +35,10 @@ axiosInstance.interceptors.response.use(
             showSnackbar('Sesión expirada. Por favor, inicia sesión nuevamente.');
         } else if (error.response && error.response.status === 401) {
             showSnackbar('Usuario o contraseña incorrecto.');
-        } else {
-            showSnackbar('Algo salió mal. Por favor, intenta nuevamente.');
         }
+        // else {
+        //     showSnackbar('Algo salió mal. Por favor, intenta nuevamente.');
+        // }
         return Promise.reject(error);
     }
 );

@@ -59,6 +59,7 @@ export const DarkColor: {
         accent: '#D33C3C',     // rojo/botones
         background: '#FFFFFF', // fondo blanco
         surface: '#FFFFFF',    // Blanco
+        tertiary: '#EB3D85',
         text: '#000000',       // dark violet texto
         disabled: '#9E9E9E',   // Gris medio para estados deshabilitados
         placeholder: '#FFFFFF', // Gris medio para placeholders
@@ -125,6 +126,8 @@ export const LightColor: {
         accent: '#D33C3C',     // rojo/botones
         background: '#FFFFFF', // fondo azul
         surface: '#FFFFFF',    // Blanco
+        tertiary: '#EB3D85',
+
         text: '#000',       // dark violet texto
         disabled: '#dad7d7',   // Gris medio para estados deshabilitados
         placeholder: '#f6f5f5', // Gris medio para placeholders

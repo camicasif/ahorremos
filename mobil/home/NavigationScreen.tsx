@@ -17,7 +17,7 @@ export default function Menu() {
                 },
                 tabBarLabel: ({ focused, color }) => {
                     return (
-                        <Text style={{ color: focused ? 'tomato' : 'black', fontSize: 12 }}>
+                        <Text style={{ color: focused ? '#42B98D' : 'black', fontSize: 12 }}>
                             {'Inicio'}
                         </Text>
                     );
@@ -26,7 +26,7 @@ export default function Menu() {
                     fontSize: 12, // Tamaño de la fuente de la etiqueta
                     fontWeight: 'bold', // Peso de la fuente
                 },
-                tabBarActiveTintColor: 'tomato', // Color del ícono activo
+                tabBarActiveTintColor: '#42B98D', // Color del ícono activo
                 tabBarInactiveTintColor: 'black', // Color del ícono inactivo
                 tabBarStyle: {
                     backgroundColor: '#FFFFFF', // Color de fondo de la barra de pestañas
