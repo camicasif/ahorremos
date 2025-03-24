@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { Text, Chip } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getAccountPlanDetail } from "../services/Generalservice";
+import { getAccountPlanDetail, getSharedAccount } from "../services/Generalservice";
 import { useAppTheme } from "../config/ThemeContext";
 import { AccountPlanDetailResponse } from "../models/SharedAccount";
 import { useNavigation } from "@react-navigation/native";
@@ -19,18 +19,30 @@ export default function HomeScreen() {
   const styles = getStyles(theme);
   const navigation = useNavigation();
   const [accountData, setAccountData] =
-    useState<AccountPlanDetailResponse | null>(null);
+    useState<any>(null);
   const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchAccountData = async () => {
             try {
-                // const accountId = await AsyncStorage.getItem('accountId');
-                const accountId = 3;
+                const accountId = await AsyncStorage.getItem('accountId');
+                console.log("el account es",accountId)
+                // const accountId = 3;
                 if (accountId) {
-                    const data = await getAccountPlanDetail(parseInt(String(accountId)));
-                    setAccountData(data);
-                }
+                    const data = await getAccountPlanDetail(accountId);
+                    const dataShared = await getSharedAccount(accountId);
+                    console.log("la data prim es",  data)
+
+
+                    let parsedData = (accountId != "5327f3f3-20aa-4789-84df-15c1342f154a") ? { paymentPlan:data[0], paymentState: "CRITIC"} :  data
+                    console.log("la data es", parsedData)
+                    setAccountData(parsedData);
+                  const paymentPlanId = parsedData.paymentPlan?.id ?? 3;
+                  await AsyncStorage.setItem("idPaymentPlan", paymentPlanId.toString());
+
+
+
+            }
             } catch (error) {
                 console.error('Error fetching account data:', error);
             } finally {
@@ -73,7 +85,7 @@ export default function HomeScreen() {
         <>
           <View style={{ flexDirection: "row", gap: 25, marginTop: 30 }}>
             <View>
-              <Text style={styles.savingsTitle}>Próxima fecha de abono</Text>
+              <Text style={styles.savingsTitle}>Fecha de abono</Text>
               <Text style={styles.amount}>{moment(accountData.actualPaymentDate).format("DD/MM/YYYY")}</Text>
             </View>
 
@@ -87,7 +99,16 @@ export default function HomeScreen() {
                 : styles.normal,
             ]}
           >
-            Normal
+            <Text     style={[
+
+              accountData.paymentState === "CRITIC"
+                ? styles.critic
+                : styles.normal,
+            ]} >
+              {accountData.paymentState === "CRITIC"
+              ? "Crítico"
+              : "Normal"}
+              </Text>
           </Chip>
           <Text style={styles.statusText}>
             {accountData.paymentState === "CRITIC"
@@ -98,10 +119,19 @@ export default function HomeScreen() {
           <View
             style={{ width: "100%", flex: 0.6, justifyContent: "flex-end" }}
           >
+
+
+ {accountData.paymentState === "CRITIC" ?
+<Image
+              source={require("../assets/rb_5854.png")}
+              style={{ width: "100%", height: "100%", objectFit: "contain" }}
+            />
+            :
             <Image
               source={require("../assets/rb_7368.png")}
               style={{ width: "100%", height: "100%", objectFit: "contain" }}
             />
+ }
           </View>
         </>
       ) : (
@@ -186,12 +216,14 @@ const getStyles = (theme) =>
       color: "white",
     },
     critic: {
-      backgroundColor: "red",
-      color: "white",
+      backgroundColor: "#F4D0D0",
+      color: "#D94242",
+      fontWeight:600
     },
     normal: {
       backgroundColor: "#DFFFDC",
-      color: "white",
+      color: "green",
+      fontWeight:600
     },
     statusText: {
       fontSize: 14,

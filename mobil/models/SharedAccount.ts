@@ -9,10 +9,11 @@ export interface PaymentPlan {
   initialDate: string;
   endDate: string;
   paymentPeriod: number;
+
 }
 
 export interface PaymentPlanItem {
-  id: number;
+  idPaymentPlan: number;
   estimatedBalance: number;
   initialDate: string;
   endDate: string;
@@ -20,11 +21,14 @@ export interface PaymentPlanItem {
   accounts: AccountUser[]
 }
 
+
+
 export interface PaymentItem {
-  idAccount: number;
+  id: number;
   amount: number;
   account: AccountUser;
   date: string;
+  is_paid:boolean;
 }
 
 export interface AccountUser {
@@ -42,7 +46,7 @@ export interface AccountPlanDetailResponse {
 }
 
 export interface Payment {
-  idAccount: number;
+  idAccount: string;
   amount: number;
   idPaymentPlan: number;
 }
@@ -95,3 +99,6 @@ export interface CreatePaymentPlanResponse {
   endDate: string; // Fecha de finalización
   paymentPeriod: number; // Período de pago en días
 }
+
+
+

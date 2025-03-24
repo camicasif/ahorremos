@@ -5,13 +5,14 @@ import {
     AccountPlanDetailResponse, codeResponse, CreatePaymentPlanRequest, CreatePaymentPlanResponse,
     CreateSharedAccountRequest,
     CreateSharedAccountResponse,
-    Payment, SharedAccountResponse,
+    Payment, PaymentPlan, PaymentPlanItem, SharedAccountResponse,
 } from '../models/SharedAccount';
 import axios from 'axios';
 import { PeluqueriaServiciosResponseDto } from '../models/Peluqueria.interface';
+import moment from "moment";
 
 const API_URL = '/api/account';
-
+const ENV_URL = 'https://localhost:3000';
 export const login = async (credentials: Auth): Promise<AuthResponse> => {
     try {
         const response = await axiosInstance.post<AuthResponse>('/auth/login', credentials);
@@ -32,19 +33,14 @@ export const login = async (credentials: Auth): Promise<AuthResponse> => {
     }
 };
 
-export const getAccountPlanDetail = async (accountId: number): Promise<AccountPlanDetailResponse> => {
-    // try {
-    //     const response = await axios.get<AccountPlanDetailResponse>(`${API_URL}/${accountId}/plan-detail`);
-    //     return response.data;
-    // } catch (error) {
-    //     console.error('Error fetching account plan details:', error);
+export const getAccountPlanDetail = async (accountId: string): Promise<any> => {
 
-        // Datos quemados como fallback en caso de error
+    if(accountId == "5327f3f3-20aa-4789-84df-15c1342f154a"){
         return {
             accountId: accountId,
             balance: 2500,
             sharedAccount: {
-                totalAmount: 34,
+                totalAmount: 3000,
                 id: 23,
             },
             paymentPlan: {
@@ -55,10 +51,24 @@ export const getAccountPlanDetail = async (accountId: number): Promise<AccountPl
                 paymentPeriod: 30,
             },
             paymentState: 'NO_CRITIC',
-            actualPaymentDate: '25-03-2025',
+            actualPaymentDate: moment().add("1","M"),
         };
-    // }
+    }
+    else{
+    try {
+        const response = await axiosInstance.get<any>(`/payment-plans/${accountId}`);
+        console.log("URL enviada:", response.config.url);
+        console.log("la respuesta es ",response)
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching account plan details:', error);
+           throw error
+        }
+        // Datos quemados como fallback en caso de error
+     
+    }
 };
+
 
 export const abonar = async (body: Payment): Promise<any> => {
     try {
@@ -144,6 +154,31 @@ export const createPaymentPlan = async (body: {
 
 
 
+
+/**
+ * Obtiene los planes de pago de una cuenta específica
+ * @param idAccount - ID de la cuenta (UUID)
+ * @returns Lista de planes de pago asociados a la cuenta
+ */
+export const getPaymentPlansByAccount = async (idAccount: string): Promise<PaymentPlanItem[]> => {
+    try {
+        const response = await axiosInstance.get<PaymentPlanItem[]>(`/payment-plans/${idAccount}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error obteniendo planes de pago:", error);
+        throw error;
+    }
+};
+
+export const getPaymentsByAccount = async (idAccount: string): Promise<PaymentItem[]> => {
+    try {
+        const response = await axiosInstance.get<PaymentItem[]>(`/payments/account/${idAccount}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error obteniendo planes de pago:", error);
+        throw error;
+    }
+};
 
 
 
